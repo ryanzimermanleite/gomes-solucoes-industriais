@@ -174,8 +174,6 @@
     window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto), "_blank", "noopener");
   });
 
-  var semMovimento = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-
   /* ---------- serviços: abre um item por vez ---------- */
   var itensServico = $$(".servico-item");
   itensServico.forEach(function (item) {
@@ -205,7 +203,7 @@
     };
     requestAnimationFrame(passo);
   };
-  if (!semMovimento && "IntersectionObserver" in window) {
+  if ("IntersectionObserver" in window) {
     var ioContagem = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (en.isIntersecting) { contar(en.target); ioContagem.unobserve(en.target); }
@@ -242,13 +240,9 @@
       var n = Math.round(Math.max(0, Math.min(1, p)) * palavras.length);
       palavras.forEach(function (el, i) { el.classList.toggle("is-on", i < n); });
     };
-    if (semMovimento) {
-      palavras.forEach(function (el) { el.classList.add("is-on"); });
-    } else {
-      window.addEventListener("scroll", acender, { passive: true });
-      window.addEventListener("resize", acender);
-      acender();
-    }
+    window.addEventListener("scroll", acender, { passive: true });
+    window.addEventListener("resize", acender);
+    acender();
   }
 
   /* ---------- ano no rodapé ---------- */

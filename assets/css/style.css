@@ -488,11 +488,10 @@ body.sem-rolagem { overflow: hidden; }
 .js .reveal { opacity: 0; transform: translateY(22px); transition: opacity .6s ease, transform .6s ease; }
 .js .reveal.is-visible { opacity: 1; transform: none; }
 
+/* Com "reduzir animações" ligado no aparelho, só a rolagem suave é desligada;
+   as demais animações são leves e continuam ativas. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .js .reveal { opacity: 1; transform: none; transition: none; }
-  .btn, .area, .projeto-capa img { transition: none; }
-  .stage-ring::before, .stage.is-done .stage-pulse { animation: none; }
 }
 
 /* ---------- telas médias ---------- */
@@ -622,9 +621,3 @@ body.sem-rolagem { overflow: hidden; }
   .site-footer { padding-bottom: 4.750rem; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .logos-faixa { -webkit-mask-image: none; mask-image: none; }
-  .logos-trilho { animation: none; flex-wrap: wrap; justify-content: center; flex: 1 1 auto; padding: 0 1.25rem; }
-  .logos-trilho[aria-hidden="true"] { display: none; }
-  .servico-painel, .servico-nome { transition: none; }
-}

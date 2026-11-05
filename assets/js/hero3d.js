@@ -19,7 +19,6 @@
     }
     var DPR = Math.min(window.devicePixelRatio || 1, 2);
     var telaPequena = !!(window.matchMedia && window.matchMedia("(max-width: 680px)").matches);
-    var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     renderer.setPixelRatio(DPR);
     renderer.outputEncoding = THREE.sRGBEncoding;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -30,7 +29,7 @@
 
     /* ---------- cena, câmera e luz ---------- */
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+    var camera = new THREE.PerspectiveCamera(30, 1, 5, 40); // perto/longe justos = mais precisão de profundidade
     camera.position.set(0, 5.1, 13.7);
     camera.lookAt(0, 0.85, 0);
 
@@ -41,7 +40,7 @@
     sol.shadow.mapSize.set(telaPequena ? 1024 : 2048, telaPequena ? 1024 : 2048);
     sol.shadow.camera.left = -5.5; sol.shadow.camera.right = 5.5;
     sol.shadow.camera.top = 5.5; sol.shadow.camera.bottom = -5.5;
-    sol.shadow.camera.near = 1; sol.shadow.camera.far = 30;
+    sol.shadow.camera.near = 5; sol.shadow.camera.far = 22;
     sol.shadow.bias = -0.0006;
     sol.shadow.normalBias = 0.02;
     scene.add(sol);
@@ -135,7 +134,7 @@
     /* ---------- base giratória com o pátio pintado ---------- */
     var R = 3.45;
     var disco = new THREE.Mesh(new THREE.CylinderGeometry(R, R + 0.14, 0.24, 96), M.disco);
-    disco.position.y = -0.121;
+    disco.position.y = -0.15; // topo 3 cm abaixo do pátio, para as duas superfícies não se sobreporem
     rig.add(disco);
     var anel = new THREE.Mesh(new THREE.TorusGeometry(R + 0.01, 0.035, 10, 120), M.anel);
     anel.rotation.x = Math.PI / 2;
@@ -177,7 +176,7 @@
     }
     var patio = new THREE.Mesh(new THREE.CircleGeometry(R, 96), std(0xffffff, { map: texPatio(), roughness: 0.95 }));
     patio.rotation.x = -Math.PI / 2;
-    patio.position.y = 0.001;
+    patio.position.y = 0;
     rig.add(patio);
 
     /* ---------- linha do tempo ---------- */
@@ -627,7 +626,7 @@
     }
 
     /* ---------- laço ---------- */
-    var tempo = reduce ? T_PRONTO + 2 : 0;
+    var tempo = 0;
     var anterior = 0, iniciado = false, quadros = 0, somaDt = 0, aliviado = false;
     function desenhar() {
       aplicar(tempo);
@@ -641,10 +640,11 @@
       var dt = Math.min(0.05, (agora - anterior) / 1000 || 0);
       anterior = agora;
       if (!naTela) return;
-      if (!reduce) { tempo += dt; if (tempo >= T_TOTAL) tempo = 0; }
+      tempo += dt;
+      if (tempo >= T_TOTAL) tempo = 0;
       if (!dragging) {
         if (Math.abs(vel) > 0.0004) { yaw += vel; vel *= 0.93; }
-        else if (!reduce && agora > retomar) yaw += AUTO * dt;
+        else if (agora > retomar) yaw += AUTO * dt;
       }
       giratorios.forEach(function (g) { g.rotation.y += dt * 3.2; });
       desenhar();
