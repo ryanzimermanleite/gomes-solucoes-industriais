@@ -1,0 +1,6 @@
+# Material de origem e arquivos de trabalho: não fazem parte do site publicado
+referencias/
+previa/
+*.pptx
+.claude/
+Thumbs.db
