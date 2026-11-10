@@ -1,6 +1,7 @@
 # Material de origem e arquivos de trabalho: não fazem parte do site publicado
 referencias/
 previa/
+publicar/
 *.pptx
 .claude/
 Thumbs.db
