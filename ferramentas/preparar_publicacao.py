@@ -2,16 +2,17 @@
 
 Uso (na pasta do site):  python ferramentas/preparar_publicacao.py
    ou dois cliques em:   ferramentas/preparar_publicacao.bat
+   (ferramentas/enviar_ftp.bat roda este script e depois envia o resultado por FTP)
 
 Gera, sem alterar os arquivos originais (a prévia do GitHub continua escondida do Google):
-  publicar/site/               -> o que vai para a pasta do domínio no servidor (public_html)
-  publicar/gomeseng.eng.br.zip -> o mesmo conteúdo em zip, para enviar pelo gerenciador de arquivos
-  publicar/COMO_PUBLICAR.txt   -> passo a passo
+  publicar/site/             -> o que vai para a pasta do domínio no servidor (public_html)
+  publicar/<domínio>.zip     -> o mesmo conteúdo em zip, para enviar pelo gerenciador de arquivos
+  publicar/COMO_PUBLICAR.txt -> passo a passo
 
 Ajustes feitos só na cópia:
   - tira a marca "noindex" que impede o Google de indexar a prévia;
   - coloca o endereço definitivo no canonical, no og:url, na imagem de compartilhamento e nos dados do Google;
-  - cria robots.txt, sitemap.xml e .htaccess (cache e compressão).
+  - cria robots.txt, sitemap.xml e .htaccess (cache, compressão e endereços do site antigo).
 Depois de qualquer mudança no site, rode de novo e suba o conteúdo novo.
 """
 import re
@@ -21,7 +22,9 @@ import zipfile
 from datetime import date
 from pathlib import Path
 
-DOMINIO = "gomeseng.eng.br"
+# Por enquanto o site fica no domínio antigo. Quando o cliente comprar o domínio novo,
+# trocar para "gomeseng.eng.br", rodar de novo e enviar o conteúdo novo.
+DOMINIO = "enggomes.com"
 URL = f"https://{DOMINIO}/"
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -83,8 +86,31 @@ SITEMAP = f"""<?xml version="1.0" encoding="UTF-8"?>
 </urlset>
 """
 
-HTACCESS = """# Site da Gomes Soluções Industriais (estático: só HTML, CSS, JS e imagens)
+# Páginas do site antigo (feito no Construtor de Sites da Hostinger) que o Google ainda mostra.
+# Cada uma passa a abrir a seção certa do site novo, em vez de dar "página não encontrada".
+PAGINAS_ANTIGAS = {
+    "contact": "contato",
+    "portifolio": "projetos",
+    "reforma-dos-vestiarios-tenda-atacado-em-guarapiranga-sp": "projetos",
+    "pintura-e-criacao-de-logo-hotel-oyo-em-jacutinga-mg": "projetos",
+    "pintura-de-fachada-e-construcao-de-logo-hotel-oyo-em-piracicaba-sp": "projetos",
+    "desenvolvimento-de-logo-hotel-oyo-em-sao-carlos-sp": "projetos",
+    "pintura-de-brise-hotel-park-tower-em-campinas-sp": "projetos",
+    "limpeza-de-telhas-e-estruturas-metalicas-tenda-atacado": "projetos",
+}
+REDIRECIONAMENTOS = "\n".join(
+    f"  RewriteRule ^{antiga}/?$ /#{secao} [R=301,L,NE]"  # os nomes só têm letras, números e hífen
+    for antiga, secao in PAGINAS_ANTIGAS.items()
+)
+
+HTACCESS = f"""# Site da Gomes (estático: só HTML, CSS, JS e imagens)
 DirectoryIndex index.html
+
+# Endereços do site antigo levados para a seção certa do site novo
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+{REDIRECIONAMENTOS}
+</IfModule>
 
 # Cache no navegador: a página sempre atualizada; estilos, scripts e imagens guardados por um tempo
 <IfModule mod_expires.c>
@@ -108,14 +134,27 @@ DirectoryIndex index.html
 INSTRUCOES = f"""COMO PUBLICAR O SITE EM {DOMINIO}
 =============================================
 
-O QUE PEDIR AO CLIENTE
-- Um usuário de FTP só para o site, com acesso apenas à pasta do domínio {DOMINIO}.
-- Conexão SFTP ou FTPS (criptografada). Dados: servidor, porta, usuário, senha e pasta (na Hostinger, public_html).
+O QUE PRECISA ESTAR PRONTO NA HOSPEDAGEM
+- Um usuário de FTP só para o site, com acesso à pasta do domínio {DOMINIO} (na Hostinger, public_html).
 - Certificado SSL (https) ativo no domínio.
 - O domínio {DOMINIO} apontando para essa hospedagem.
   Mexer só nos registros do site (raiz e www). NÃO mexer nos registros de e-mail (MX e SPF).
 
-OPÇÃO A: FILEZILLA (SFTP/FTPS)
+ATENÇÃO SE O DOMÍNIO HOJE MOSTRA O SITE ANTIGO DO CONSTRUTOR DE SITES (caso do enggomes.com)
+- Enviar os arquivos por FTP NÃO troca o site que aparece no domínio: o site antigo
+  está no Construtor de Sites da Hostinger, que é separado da hospedagem.
+- Depois de enviar, no painel da Hostinger: tirar o domínio do Construtor de Sites e ligá-lo
+  ao site da hospedagem onde os arquivos foram enviados. Os registros de e-mail continuam como estão.
+- Não apagar o site do Construtor até o site novo estar no ar e aprovado: ele serve de volta atrás.
+- O domínio usa HSTS: o navegador só aceita https. Ligar o SSL do domínio na hospedagem logo
+  depois da troca; até o certificado sair, o site pode dar erro de segurança.
+
+OPÇÃO A: SCRIPT PRONTO (FTP)
+1. Dois cliques em  ferramentas\\enviar_ftp.bat
+2. Digitar servidor, usuário e senha do FTP quando ele pedir (a senha não aparece e não fica salva).
+3. Conferir a pasta de destino que ele mostrar e confirmar. Ele só envia e substitui arquivos; não apaga nada.
+
+OPÇÃO B: FILEZILLA (SFTP/FTPS)
 1. Arquivo > Gerenciador de Sites > Novo site.
    Protocolo: SFTP (ou "FTP - FTP com TLS explícito"), servidor, porta, usuário e senha passados pelo cliente.
 2. Conectar e abrir, do lado direito, a pasta do domínio (public_html).
@@ -124,7 +163,7 @@ OPÇÃO A: FILEZILLA (SFTP/FTPS)
    (index.html, assets, .htaccess, robots.txt, sitemap.xml) para dentro de public_html.
    O .htaccess começa com ponto: se não aparecer, menu Servidor > Forçar exibição de arquivos ocultos.
 
-OPÇÃO B: GERENCIADOR DE ARQUIVOS DA HOSPEDAGEM (sem FileZilla)
+OPÇÃO C: GERENCIADOR DE ARQUIVOS DA HOSPEDAGEM (sem FileZilla)
 1. Abrir o gerenciador de arquivos e entrar em public_html do domínio.
 2. Enviar o arquivo  publicar\\{DOMINIO}.zip  e usar "Extrair" ali mesmo.
 3. Conferir que index.html ficou direto dentro de public_html (e não numa subpasta). Apagar o zip.
@@ -135,17 +174,22 @@ DEPOIS DE SUBIR
 - Opcional: cadastrar o site no Google Search Console e enviar {URL}sitemap.xml.
 
 ATUALIZAR NO FUTURO
-- Depois de mudar o site, rodar de novo ferramentas\\preparar_publicacao.bat
-  e enviar o conteúdo novo de publicar\\site por cima do que está no servidor.
+- Depois de mudar o site, rodar de novo ferramentas\\enviar_ftp.bat
+  (ou preparar_publicacao.bat e enviar o conteúdo novo de publicar\\site por cima do que está no servidor).
+- Domínio novo: trocar DOMINIO no começo de ferramentas\\preparar_publicacao.py e enviar de novo.
 """
 
 
 def main() -> None:
-    if SITE.exists():
-        if SITE.resolve().parent != SAIDA.resolve():
-            sys.exit(f"ERRO: pasta de saída inesperada: {SITE}")
-        shutil.rmtree(SITE)
-    SITE.mkdir(parents=True)
+    if SITE.resolve().parent != SAIDA.resolve():
+        sys.exit(f"ERRO: pasta de saída inesperada: {SITE}")
+    SITE.mkdir(parents=True, exist_ok=True)
+    # Esvazia a pasta em vez de apagá-la: assim não trava se ela estiver aberta no Explorer ou num terminal.
+    for item in SITE.iterdir():
+        if item.is_dir() and not item.is_symlink():
+            shutil.rmtree(item)
+        else:
+            item.unlink()
 
     with open(RAIZ / "index.html", encoding="utf-8", newline="") as f:
         html = ajustar_index(f.read())
@@ -157,7 +201,8 @@ def main() -> None:
     (SAIDA / "COMO_PUBLICAR.txt").write_text(INSTRUCOES, encoding="utf-8-sig", newline="\r\n")
 
     arquivos = sorted(p for p in SITE.rglob("*") if p.is_file())
-    ZIP.unlink(missing_ok=True)
+    for antigo in SAIDA.glob("*.zip"):
+        antigo.unlink()
     with zipfile.ZipFile(ZIP, "w", zipfile.ZIP_DEFLATED) as z:
         for p in arquivos:
             z.write(p, p.relative_to(SITE).as_posix())
