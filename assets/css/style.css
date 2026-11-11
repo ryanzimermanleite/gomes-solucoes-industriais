@@ -106,8 +106,9 @@ h3 { font-size: 1.2rem; font-weight: 600; }
 .brand { display: inline-flex; align-items: center; gap: .7rem; text-decoration: none; color: var(--navy-700); }
 .brand img { width: 46px; height: 46px; }
 .brand-text { display: flex; flex-direction: column; line-height: 1; }
-.brand-text strong { font-family: var(--font-title); font-weight: 600; font-size: 1.5rem; letter-spacing: .06em; }
-.brand-text small { font-family: var(--font-title); font-weight: 500; font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; margin-top: .3rem; color: var(--green-600); }
+/* "GOMES ENGENHARIA" em cima e a frase embaixo, cada uma numa linha só e com a mesma largura */
+.brand-text strong { font-family: var(--font-title); font-weight: 600; font-size: 1.5rem; letter-spacing: .04em; white-space: nowrap; }
+.brand-text small { font-family: var(--font-title); font-weight: 500; font-size: .69rem; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; margin-top: .35rem; color: var(--green-600); }
 .brand-light { color: #fff; }
 .brand-light .brand-text small { color: var(--green-400); }
 
@@ -494,8 +495,14 @@ body.sem-rolagem { overflow: hidden; }
   html { scroll-behavior: auto; }
 }
 
-/* ---------- telas médias ---------- */
-@media (max-width: 1020px) {
+/* ---------- notebooks: menu completo um pouco mais junto para caber ao lado do nome ---------- */
+@media (min-width: 1121px) and (max-width: 1180px) {
+  .site-nav { gap: 1.25rem; }
+  .site-nav ul { gap: 1.2rem; }
+}
+
+/* ---------- até 1120px o menu vira botão (o nome "GOMES ENGENHARIA" não cabe ao lado do menu completo) ---------- */
+@media (max-width: 1120px) {
   .menu-toggle { display: inline-flex; }
   .site-nav {
     position: absolute; top: var(--header-h); left: 0; right: 0;
@@ -509,7 +516,10 @@ body.sem-rolagem { overflow: hidden; }
   .site-nav ul a { display: block; padding: .9rem .25rem; border-bottom: 1px solid var(--line); font-size: 1.05rem; }
   .site-nav ul a::after { display: none; }
   .site-nav ul a.is-active { color: var(--green-600); }
+}
 
+/* ---------- telas médias ---------- */
+@media (max-width: 1020px) {
   .hero-inner { grid-template-columns: 1fr; grid-template-areas: "head" "stage" "body"; }
   .hero-head { align-self: auto; }
   .stage { width: min(440px, 88vw); margin: .25rem auto 1.5rem; }
@@ -525,8 +535,12 @@ body.sem-rolagem { overflow: hidden; }
 @media (max-width: 680px) {
   :root { --header-h: 68px; }
   body { font-size: 1rem; }
+  .header-inner { gap: .75rem; }
+  .brand { gap: .55rem; }
   .brand img { width: 40px; height: 40px; }
-  .brand-text strong { font-size: 1.3rem; }
+  /* o nome acompanha a largura do celular para as duas linhas nunca quebrarem */
+  .brand-text strong { font-size: clamp(.9rem, 4.8vw, 1.3rem); }
+  .brand-text small { font-size: clamp(.48rem, 2.42vw, .66rem); letter-spacing: .06em; margin-top: .3rem; }
   .hero { min-height: 0; padding-top: 2.25rem; padding-bottom: 7rem; }
   .hero h1 { margin-bottom: .5rem; }
   .stage { width: min(330px, 86vw); margin: 0 auto 1rem; }
