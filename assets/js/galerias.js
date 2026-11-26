@@ -486,5 +486,182 @@ window.PASTAS = {
     "local": "Coberturas industriais",
     "titulo": "Troca de telhas e manutenção de telhado",
     "galeria": "coberturas"
+  },
+  "mont-blanc": {
+    "nome": "Résidence Mont Blanc",
+    "local": "Résidence Mont Blanc",
+    "logo": "assets/img/clientes/placa-mont-blanc.webp",
+    "titulo": "Construção de residência de alto padrão",
+    "descricao": "A Gomes construiu a Résidence Mont Blanc do terreno à entrega. As fotos mostram a obra em ordem: terraplenagem, fundações, piscina, lajes, alvenaria, estrutura e a casa pronta, com os ambientes internos.",
+    "itens": [
+      "Terraplenagem e fundações",
+      "Estrutura, lajes e alvenaria",
+      "Piscina e deck",
+      "Acabamentos internos e externos"
+    ],
+    "videos": [
+      {
+        "src": "assets/video/mont-blanc/01.mp4",
+        "capa": "assets/video/mont-blanc/01.webp",
+        "legenda": "Fachada pronta"
+      },
+      {
+        "src": "assets/video/mont-blanc/02.mp4",
+        "capa": "assets/video/mont-blanc/02.webp",
+        "legenda": "Vista aérea da obra"
+      },
+      {
+        "src": "assets/video/mont-blanc/03.mp4",
+        "capa": "assets/video/mont-blanc/03.webp",
+        "legenda": "Casa no reboco, com a piscina"
+      },
+      {
+        "src": "assets/video/mont-blanc/04.mp4",
+        "capa": "assets/video/mont-blanc/04.webp",
+        "legenda": "Fôrmas e laje"
+      }
+    ],
+    "fotos": [
+      {
+        "src": "assets/img/projetos/mont-blanc/01.webp",
+        "p": "assets/img/projetos/mont-blanc/01-p.webp",
+        "w": 1600,
+        "h": 1200
+      },
+      {
+        "src": "assets/img/projetos/mont-blanc/02.webp",
+        "p": "assets/img/projetos/mont-blanc/02-p.webp",
+        "w": 1600,
+        "h": 1200
+      },
+      {
+        "src": "assets/img/projetos/mont-blanc/03.webp",
+        "p": "assets/img/projetos/mont-blanc/03-p.webp",
+        "w": 1600,
+        "h": 1200
+      },
+      {
+        "src": "assets/img/projetos/mont-blanc/04.webp",
+        "p": "assets/img/projetos/mont-blanc/04-p.webp",
+        "w": 1600,
+        "h": 1200
+      },
+      {
+        "src": "assets/img/projetos/mont-blanc/05.webp",
+        "p": "assets/img/projetos/mont-blanc/05-p.webp",
+        "w": 1600,
+        "h": 1200
+      },
+      {
+        "src": "assets/img/projetos/mont-blanc/06.webp",
+        "p": "assets/img/projetos/mont-blanc/06-p.webp",
+        "w": 1600,
+        "h": 1200
+      },
+      {
+        "src": "assets/img/projetos/mont-blanc/07.webp",
+        "p": "assets/img/projetos/mont-blanc/07-p.webp",
+        "w": 1600,
+        "h": 1200
+      },
+      {
+        "src": "assets/img/projetos/mont-blanc/08.webp",
+        "p": "assets/img/projetos/mont-blanc/08-p.webp",
+        "w": 1600,
+        "h": 1200
+      },
+      {
+        "src": "assets/img/projetos/mont-blanc/09.webp",
+        "p": "assets/img/projetos/mont-blanc/09-p.webp",
+        "w": 1600,
+        "h": 1507
+      },
+      {
+        "src": "assets/img/projetos/mont-blanc/10.webp",
+        "p": "assets/img/projetos/mont-blanc/10-p.webp",
+        "w": 1600,
+        "h": 1200
+      },
+      {
+        "src": "assets/img/projetos/mont-blanc/11.webp",
+        "p": "assets/img/projetos/mont-blanc/11-p.webp",
+        "w": 1600,
+        "h": 1200
+      },
+      {
+        "src": "assets/img/projetos/mont-blanc/12.webp",
+        "p": "assets/img/projetos/mont-blanc/12-p.webp",
+        "w": 1600,
+        "h": 1200
+      },
+      {
+        "src": "assets/img/projetos/mont-blanc/13.webp",
+        "p": "assets/img/projetos/mont-blanc/13-p.webp",
+        "w": 1200,
+        "h": 1600
+      },
+      {
+        "src": "assets/img/projetos/mont-blanc/14.webp",
+        "p": "assets/img/projetos/mont-blanc/14-p.webp",
+        "w": 1600,
+        "h": 1200
+      }
+    ]
+  },
+  "entre-verdes": {
+    "nome": "Entre Verdes",
+    "local": "Entreverdes · Campinas/SP",
+    "logo": "assets/img/clientes/placa-entre-verdes.webp",
+    "titulo": "Terraplenagem e fundações de residência",
+    "descricao": "No Entre Verdes, a Gomes executa a escavação do terreno e as fundações de uma residência. As imagens de drone mostram o terreno escavado, as vigas de fundação e o canteiro de obras.",
+    "itens": [
+      "Escavação do terreno",
+      "Fundações e vigas baldrame",
+      "Canteiro de obras"
+    ],
+    "videos": [
+      {
+        "src": "assets/video/entre-verdes/01.mp4",
+        "capa": "assets/video/entre-verdes/01.webp",
+        "legenda": "Volta aérea pelo terreno"
+      },
+      {
+        "src": "assets/video/entre-verdes/02.mp4",
+        "capa": "assets/video/entre-verdes/02.webp",
+        "legenda": "Fundações vistas de cima"
+      }
+    ],
+    "fotos": [
+      {
+        "src": "assets/img/projetos/entre-verdes/01.webp",
+        "p": "assets/img/projetos/entre-verdes/01-p.webp",
+        "w": 1600,
+        "h": 1199
+      },
+      {
+        "src": "assets/img/projetos/entre-verdes/02.webp",
+        "p": "assets/img/projetos/entre-verdes/02-p.webp",
+        "w": 1600,
+        "h": 1199
+      },
+      {
+        "src": "assets/img/projetos/entre-verdes/03.webp",
+        "p": "assets/img/projetos/entre-verdes/03-p.webp",
+        "w": 1600,
+        "h": 1199
+      },
+      {
+        "src": "assets/img/projetos/entre-verdes/04.webp",
+        "p": "assets/img/projetos/entre-verdes/04-p.webp",
+        "w": 1600,
+        "h": 1199
+      },
+      {
+        "src": "assets/img/projetos/entre-verdes/05.webp",
+        "p": "assets/img/projetos/entre-verdes/05-p.webp",
+        "w": 1600,
+        "h": 1199
+      }
+    ]
   }
 };
