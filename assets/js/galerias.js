@@ -407,3 +407,111 @@ window.GALERIAS = {
     ]
   }
 };
+
+/* Pastas da seção "Veja nosso trabalho": um cartão por cliente, que abre vídeos, fotos e descrição.
+   Para acrescentar um cliente: copie o bloco abaixo com outro nome e crie o cartão no index.html
+   com data-pasta="<nome>".
+   - vídeos em assets/video/<cliente>/ (mp4 leve + imagem de capa .webp)
+   - fotos em assets/img/projetos/<cliente>/ ("p" é a miniatura mostrada na pasta)
+   - pasta só de fotos: use "galeria": "<nome>" para reaproveitar uma lista de window.GALERIAS;
+     a miniatura de cada foto é o mesmo arquivo terminado em "-p.webp" */
+window.PASTAS = {
+  "mecalux": {
+    "nome": "Mecalux",
+    "local": "Mecalux do Brasil · Hortolândia/SP",
+    "logo": "assets/img/clientes/mecalux-simbolo.webp",
+    "titulo": "Reservatório, tubulações e troca de 4.700 domus",
+    "descricao": "Na fábrica da Mecalux do Brasil, em Hortolândia/SP, a Gomes fez a manutenção do reservatório de água e das tubulações e trocou 4.700 domus da cobertura. As imagens de drone mostram a equipe trabalhando sobre o telhado do galpão.",
+    "itens": [
+      "Troca de 4.700 domus na cobertura",
+      "Manutenção do reservatório de água",
+      "Manutenção das tubulações",
+      "Trabalho em altura com equipe habilitada"
+    ],
+    "videos": [
+      { "src": "assets/video/mecalux/01.mp4", "capa": "assets/video/mecalux/01.webp", "legenda": "Vista aérea da fábrica" },
+      { "src": "assets/video/mecalux/02.mp4", "capa": "assets/video/mecalux/02.webp", "legenda": "Equipe na cobertura" },
+      { "src": "assets/video/mecalux/03.mp4", "capa": "assets/video/mecalux/03.webp", "legenda": "Troca dos domus" },
+      { "src": "assets/video/mecalux/04.mp4", "capa": "assets/video/mecalux/04.webp", "legenda": "Detalhe da instalação" }
+    ],
+    "fotos": [
+      { "src": "assets/img/projetos/mecalux/drone-01.webp", "p": "assets/img/projetos/mecalux/drone-01-p.webp", "w": 1600, "h": 1199 },
+      { "src": "assets/img/projetos/mecalux/drone-02.webp", "p": "assets/img/projetos/mecalux/drone-02-p.webp", "w": 1600, "h": 1199 },
+      { "src": "assets/img/projetos/mecalux/drone-03.webp", "p": "assets/img/projetos/mecalux/drone-03-p.webp", "w": 1600, "h": 1199 },
+      { "src": "assets/img/projetos/mecalux/drone-04.webp", "p": "assets/img/projetos/mecalux/drone-04-p.webp", "w": 1600, "h": 1199 },
+      { "src": "assets/img/projetos/mecalux/drone-05.webp", "p": "assets/img/projetos/mecalux/drone-05-p.webp", "w": 1600, "h": 1199 },
+      { "src": "assets/img/projetos/mecalux/01.webp", "p": "assets/img/projetos/mecalux/01-p.webp", "w": 720, "h": 1600 },
+      { "src": "assets/img/projetos/mecalux/02.webp", "p": "assets/img/projetos/mecalux/02-p.webp", "w": 960, "h": 1280 },
+      { "src": "assets/img/projetos/mecalux/03.webp", "p": "assets/img/projetos/mecalux/03-p.webp", "w": 960, "h": 1280 },
+      { "src": "assets/img/projetos/mecalux/04.webp", "p": "assets/img/projetos/mecalux/04-p.webp", "w": 720, "h": 1280 }
+    ]
+  },
+  "myralis": {
+    "nome": "Myralis",
+    "local": "Myralis · Aguaí/SP",
+    "titulo": "Piso industrial para indústria farmacêutica",
+    "galeria": "myralis"
+  },
+  "oyo": {
+    "nome": "Hotéis OYO",
+    "local": "Hotéis OYO · Jacutinga/MG, Piracicaba/SP e São Carlos/SP",
+    "logo": "assets/img/clientes/oyo.webp",
+    "logoLarga": true,
+    "titulo": "Pintura de fachadas e letreiros",
+    "galeria": "oyo"
+  },
+  "residencial": {
+    "nome": "Obra residencial",
+    "local": "Residências de alto padrão",
+    "titulo": "Construção e gestão de obra residencial",
+    "galeria": "residencial"
+  },
+  "park-tower": {
+    "nome": "Hotel Park Tower",
+    "local": "Hotel Park Tower · Campinas/SP",
+    "titulo": "Pintura de brise",
+    "galeria": "park-tower"
+  },
+  "hm-stand": {
+    "nome": "HM Engenharia",
+    "local": "HM Engenharia · Paulínia/SP",
+    "titulo": "Construção de stand de vendas",
+    "galeria": "hm-stand"
+  },
+  "nortel": {
+    "nome": "Nortel",
+    "local": "Nortel · Campinas/SP",
+    "logo": "assets/img/clientes/nortel.webp",
+    "logoLarga": true,
+    "titulo": "Restauração de fachada e pintura",
+    "galeria": "nortel"
+  },
+  "tenda-vestiarios": {
+    "nome": "Tenda Atacado",
+    "local": "Tenda Atacado · Guarapiranga, São Paulo/SP",
+    "logo": "assets/img/clientes/tenda-atacado.webp",
+    "logoLarga": true,
+    "titulo": "Reforma dos vestiários",
+    "galeria": "tenda-vestiarios"
+  },
+  "montagem-industrial": {
+    "nome": "Montagem industrial",
+    "local": "Plataformas, guarda-corpos e NR-12",
+    "titulo": "Montagem e adequação de equipamentos",
+    "galeria": "montagem-industrial"
+  },
+  "tenda-telhas": {
+    "nome": "Tenda Atacado",
+    "local": "Tenda Atacado",
+    "logo": "assets/img/clientes/tenda-atacado.webp",
+    "logoLarga": true,
+    "titulo": "Limpeza de telhas e estruturas metálicas",
+    "galeria": "tenda-telhas"
+  },
+  "coberturas": {
+    "nome": "Coberturas industriais",
+    "local": "Coberturas industriais",
+    "titulo": "Troca de telhas e manutenção de telhado",
+    "galeria": "coberturas"
+  }
+};

@@ -12,7 +12,8 @@ Gera, sem alterar os arquivos originais (a prévia do GitHub continua escondida 
 Ajustes feitos só na cópia:
   - tira a marca "noindex" que impede o Google de indexar a prévia;
   - coloca o endereço definitivo no canonical, no og:url, na imagem de compartilhamento e nos dados do Google;
-  - cria robots.txt, sitemap.xml e .htaccess (cache, compressão e endereços do site antigo).
+  - cria robots.txt, sitemap.xml e .htaccess (cache, compressão e endereços do site antigo);
+  - faz os mesmos ajustes de endereço em cada artigo da pasta blog/.
 Depois de qualquer mudança no site, rode de novo e suba o conteúdo novo.
 """
 import re
@@ -77,26 +78,47 @@ Allow: /
 Sitemap: {URL}sitemap.xml
 """
 
-SITEMAP = f"""<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>{URL}</loc>
-    <lastmod>{date.today().isoformat()}</lastmod>
-  </url>
-</urlset>
-"""
+def ajustar_artigo(html: str, nome: str) -> str:
+    """Mesmos ajustes do index, para uma página de blog/ (os caminhos dela começam com ../)."""
+    nl = "\r\n" if "\r\n" in html else "\n"
+    endereco = f"{URL}blog/{nome}"
+
+    def trocar_um(padrao: str, novo, o_que: str) -> None:
+        nonlocal html
+        html, n = re.subn(padrao, novo, html)
+        if n != 1:
+            sys.exit(f"ERRO: ajuste '{o_que}' encontrou {n} ocorrências em blog/{nome} (esperava 1). Nada foi publicado.")
+
+    trocar_um(r'[ \t]*<!-- Prévia temporária[^\n]*-->\r?\n[ \t]*<meta name="robots" content="noindex, nofollow">',
+              lambda _m: f'  <link rel="canonical" href="{endereco}">', "tirar noindex")
+    trocar_um(r'<meta property="og:type" content="article">',
+              lambda m: f'{m.group(0)}{nl}  <meta property="og:url" content="{endereco}">', "og:url")
+    trocar_um(r'<meta property="og:image" content="\.\./(assets/[^"]+)">',
+              lambda m: f'<meta property="og:image" content="{URL}{m.group(1)}">', "og:image")
+    trocar_um(r'"@type": "BlogPosting",',
+              lambda m: f'{m.group(0)}{nl}    "url": "{endereco}",{nl}    "mainEntityOfPage": "{endereco}",', "dados do Google")
+    if "noindex" in html:
+        sys.exit(f"ERRO: ainda sobrou 'noindex' em blog/{nome}. Nada foi publicado.")
+    return html
+
+
+def montar_sitemap(artigos: list[str]) -> str:
+    hoje = date.today().isoformat()
+    enderecos = [URL] + [f"{URL}blog/{nome}" for nome in artigos]
+    itens = "".join(f"  <url>\n    <loc>{e}</loc>\n    <lastmod>{hoje}</lastmod>\n  </url>\n" for e in enderecos)
+    return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{itens}</urlset>\n'
 
 # Páginas do site antigo (feito no Construtor de Sites da Hostinger) que o Google ainda mostra.
 # Cada uma passa a abrir a seção certa do site novo, em vez de dar "página não encontrada".
 PAGINAS_ANTIGAS = {
     "contact": "contato",
-    "portifolio": "projetos",
-    "reforma-dos-vestiarios-tenda-atacado-em-guarapiranga-sp": "projetos",
-    "pintura-e-criacao-de-logo-hotel-oyo-em-jacutinga-mg": "projetos",
-    "pintura-de-fachada-e-construcao-de-logo-hotel-oyo-em-piracicaba-sp": "projetos",
-    "desenvolvimento-de-logo-hotel-oyo-em-sao-carlos-sp": "projetos",
-    "pintura-de-brise-hotel-park-tower-em-campinas-sp": "projetos",
-    "limpeza-de-telhas-e-estruturas-metalicas-tenda-atacado": "projetos",
+    "portifolio": "trabalho",
+    "reforma-dos-vestiarios-tenda-atacado-em-guarapiranga-sp": "trabalho",
+    "pintura-e-criacao-de-logo-hotel-oyo-em-jacutinga-mg": "trabalho",
+    "pintura-de-fachada-e-construcao-de-logo-hotel-oyo-em-piracicaba-sp": "trabalho",
+    "desenvolvimento-de-logo-hotel-oyo-em-sao-carlos-sp": "trabalho",
+    "pintura-de-brise-hotel-park-tower-em-campinas-sp": "trabalho",
+    "limpeza-de-telhas-e-estruturas-metalicas-tenda-atacado": "trabalho",
 }
 REDIRECIONAMENTOS = "\n".join(
     f"  RewriteRule ^{antiga}/?$ /#{secao} [R=301,L,NE]"  # os nomes só têm letras, números e hífen
@@ -123,6 +145,7 @@ DirectoryIndex index.html
   ExpiresByType image/jpeg "access plus 30 days"
   ExpiresByType image/png "access plus 30 days"
   ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType video/mp4 "access plus 30 days"
 </IfModule>
 
 # Compressão do texto (deixa o site mais leve no 4G)
@@ -160,7 +183,7 @@ OPÇÃO B: FILEZILLA (SFTP/FTPS)
 2. Conectar e abrir, do lado direito, a pasta do domínio (public_html).
 3. Se houver um index.html ou default.php de exemplo da hospedagem, apagar.
 4. Do lado esquerdo, abrir a pasta  publicar\\site  e enviar TODO o conteúdo dela
-   (index.html, assets, .htaccess, robots.txt, sitemap.xml) para dentro de public_html.
+   (index.html, assets, blog, .htaccess, robots.txt, sitemap.xml) para dentro de public_html.
    O .htaccess começa com ponto: se não aparecer, menu Servidor > Forçar exibição de arquivos ocultos.
 
 OPÇÃO C: GERENCIADOR DE ARQUIVOS DA HOSPEDAGEM (sem FileZilla)
@@ -196,7 +219,17 @@ def main() -> None:
     with open(SITE / "index.html", "w", encoding="utf-8", newline="") as f:
         f.write(html)
     shutil.copytree(RAIZ / "assets", SITE / "assets", ignore=IGNORAR)
-    for nome, texto in ((".htaccess", HTACCESS), ("robots.txt", ROBOTS), ("sitemap.xml", SITEMAP)):
+
+    artigos = sorted(p.name for p in (RAIZ / "blog").glob("*.html")) if (RAIZ / "blog").is_dir() else []
+    if artigos:
+        (SITE / "blog").mkdir()
+    for nome in artigos:
+        with open(RAIZ / "blog" / nome, encoding="utf-8", newline="") as f:
+            artigo = ajustar_artigo(f.read(), nome)
+        with open(SITE / "blog" / nome, "w", encoding="utf-8", newline="") as f:
+            f.write(artigo)
+
+    for nome, texto in ((".htaccess", HTACCESS), ("robots.txt", ROBOTS), ("sitemap.xml", montar_sitemap(artigos))):
         (SITE / nome).write_text(texto, encoding="utf-8", newline="\n")
     (SAIDA / "COMO_PUBLICAR.txt").write_text(INSTRUCOES, encoding="utf-8-sig", newline="\r\n")
 

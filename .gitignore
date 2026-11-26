@@ -6,3 +6,5 @@ publicar/
 .claude/
 Thumbs.db
 __pycache__/
+# Fotos e vídeos originais (brutos, pesados). O site usa as versões leves em assets/
+/mecalux/

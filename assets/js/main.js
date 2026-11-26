@@ -54,24 +54,143 @@
     revelar.forEach(function (el) { el.classList.add("is-visible"); });
   }
 
-  /* ---------- filtro de projetos ---------- */
-  var filtros = $$(".filtro");
-  var projetos = $$(".projeto");
-  filtros.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var cat = btn.dataset.filtro;
-      filtros.forEach(function (b) {
-        var ativo = b === btn;
-        b.classList.toggle("is-active", ativo);
-        b.setAttribute("aria-pressed", String(ativo));
+  /* ---------- pasta do cliente (vídeos, fotos e descrição) ---------- */
+  var pasta = $("#pasta");
+  var painel = $("#pasta-painel");
+  var pastaOrigem = null;
+  var pastaAberta = function () { return !!pasta && !pasta.hidden; };
+
+  var criar = function (tag, classe, texto) {
+    var el = document.createElement(tag);
+    if (classe) el.className = classe;
+    if (texto) el.textContent = texto;
+    return el;
+  };
+
+  var pararVideos = function (menos) {
+    $$("video", pasta).forEach(function (v) { if (v !== menos) v.pause(); });
+  };
+
+  var montarPasta = function (dados, botao) {
+    var logo = $(".pasta-logo", pasta);
+    logo.hidden = !dados.logo;
+    logo.classList.toggle("is-larga", !!dados.logoLarga);
+    if (dados.logo) $("#pasta-logo").src = dados.logo;
+    $("#pasta-nome").textContent = dados.nome;
+    $("#pasta-local").textContent = dados.local;
+    $("#pasta-titulo").textContent = dados.titulo;
+    $("#pasta-descricao").textContent = dados.descricao || "";
+    $("#pasta-descricao").hidden = !dados.descricao;
+
+    // pastas só de fotos apontam para uma galeria de window.GALERIAS; a miniatura é o mesmo arquivo com "-p"
+    var listaFotos = dados.fotos;
+    if (!listaFotos && dados.galeria) {
+      listaFotos = (((window.GALERIAS || {})[dados.galeria] || {}).fotos || []).map(function (f) {
+        return { src: f.src, w: f.w, h: f.h, p: f.src.replace(/\.webp$/, "-p.webp") };
       });
-      projetos.forEach(function (p) {
-        var mostrar = cat === "todos" || p.dataset.cat === cat || p.dataset.cat === "sempre";
-        p.hidden = !mostrar;
-        if (mostrar) p.classList.add("is-visible");
-      });
+    }
+
+    var itens = $("#pasta-itens");
+    itens.textContent = "";
+    (dados.itens || []).forEach(function (t) { itens.appendChild(criar("li", "", t)); });
+
+    var videos = $("#pasta-videos");
+    videos.textContent = "";
+    (dados.videos || []).forEach(function (v) {
+      var fig = criar("figure", "pasta-video");
+      var video = criar("video");
+      video.controls = true;
+      video.preload = "none";
+      video.poster = v.capa;
+      video.src = v.src;
+      video.setAttribute("playsinline", "");
+      video.setAttribute("aria-label", dados.nome + ": " + v.legenda);
+      video.addEventListener("play", function () { pararVideos(video); });
+      fig.appendChild(video);
+      fig.appendChild(criar("figcaption", "", v.legenda));
+      videos.appendChild(fig);
     });
-  });
+    $("#pasta-sub-videos").hidden = !(dados.videos || []).length;
+
+    var fotos = $("#pasta-fotos");
+    fotos.textContent = "";
+    var album = { titulo: dados.titulo + " — " + dados.local, fotos: listaFotos || [] };
+    album.fotos.forEach(function (f, i) {
+      var b = criar("button", "pasta-foto");
+      b.type = "button";
+      b.setAttribute("aria-label", "Ampliar foto " + (i + 1) + " de " + album.fotos.length);
+      var img = criar("img");
+      img.src = f.p || f.src;
+      img.alt = "";
+      img.loading = "lazy";
+      b.appendChild(img);
+      b.addEventListener("click", function () { abrirGaleria(album, b, i); });
+      fotos.appendChild(b);
+    });
+    $("#pasta-sub-fotos").hidden = !album.fotos.length;
+  };
+
+  // o painel "nasce" do cartão: começa no lugar e no tamanho dele e cresce até o centro da tela
+  var doCartao = function () {
+    if (!pastaOrigem) return "scale(.92)";
+    var c = pastaOrigem.getBoundingClientRect();
+    var p = painel.getBoundingClientRect();
+    return "translate(" + (c.left - p.left) + "px," + (c.top - p.top) + "px) scale(" + (c.width / p.width) + "," + (c.height / p.height) + ")";
+  };
+
+  var abrirPasta = function (slug, botao) {
+    var dados = (window.PASTAS || {})[slug];
+    if (!dados || !pasta) return;
+    pastaOrigem = botao || null;
+    montarPasta(dados, botao);
+    pasta.hidden = false;
+    document.body.classList.add("sem-rolagem");
+    $(".pasta-conteudo", pasta).scrollTop = 0;
+    painel.style.transition = "none";
+    painel.style.transform = "none";
+    painel.style.transform = doCartao();
+    void painel.offsetWidth;            // aplica o ponto de partida antes de animar
+    painel.style.transition = "";
+    pasta.classList.add("is-open");
+    painel.style.transform = "none";
+    $(".pasta-fechar", pasta).focus({ preventScroll: true });
+  };
+
+  var fecharPasta = function () {
+    if (!pastaAberta() || !pasta.classList.contains("is-open")) return;
+    pararVideos();
+    painel.style.transform = "none";
+    var destino = doCartao();
+    pasta.classList.remove("is-open");
+    painel.style.transform = destino;
+    var fim = function () {
+      pasta.hidden = true;
+      painel.style.transform = "";
+      $$("video", pasta).forEach(function (v) { v.removeAttribute("src"); v.load(); });
+      document.body.classList.remove("sem-rolagem");
+      if (pastaOrigem) pastaOrigem.focus({ preventScroll: true });
+    };
+    window.setTimeout(fim, 420);
+  };
+
+  if (pasta) {
+    $$("[data-pasta]").forEach(function (btn) {
+      btn.addEventListener("click", function () { abrirPasta(btn.dataset.pasta, btn); });
+    });
+    $(".pasta-fechar", pasta).addEventListener("click", fecharPasta);
+    pasta.addEventListener("click", function (e) { if (e.target === pasta) fecharPasta(); });
+    document.addEventListener("keydown", function (e) {
+      if (!pastaAberta() || !lb.hidden) return;   // com a foto ampliada, as teclas são da galeria
+      if (e.key === "Escape") fecharPasta();
+      else if (e.key === "Tab") {
+        var focaveis = $$("button, video", pasta);
+        var primeiro = focaveis[0];
+        var ultimo = focaveis[focaveis.length - 1];
+        if (e.shiftKey && document.activeElement === primeiro) { e.preventDefault(); ultimo.focus(); }
+        else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primeiro.focus(); }
+      }
+    });
+  }
 
   /* ---------- galeria (lightbox) ---------- */
   var lb = $("#lightbox");
@@ -96,8 +215,9 @@
     if (prox) { new Image().src = prox.src; }
   };
 
-  var abrirGaleria = function (slug, botao) {
-    galeria = (window.GALERIAS || {})[slug];
+  // "qual" é o nome de uma galeria de window.GALERIAS ou um objeto { titulo, fotos }
+  var abrirGaleria = function (qual, botao, inicio) {
+    galeria = typeof qual === "string" ? (window.GALERIAS || {})[qual] : qual;
     if (!galeria || !galeria.fotos.length) return;
     origem = botao || null;
     lb.hidden = false;
@@ -105,14 +225,15 @@
     var unica = galeria.fotos.length < 2;
     $(".lb-ant", lb).hidden = unica;
     $(".lb-prox", lb).hidden = unica;
-    mostrarFoto(0);
+    mostrarFoto(inicio || 0);
     $(".lb-fechar", lb).focus();
   };
 
   var fecharGaleria = function () {
     lb.hidden = true;
     lbImg.removeAttribute("src");
-    document.body.classList.remove("sem-rolagem");
+    // se a galeria foi aberta de dentro de uma pasta, a página continua travada atrás dela
+    if (!pastaAberta()) document.body.classList.remove("sem-rolagem");
     if (origem) origem.focus();
   };
 
