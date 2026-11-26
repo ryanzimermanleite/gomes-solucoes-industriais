@@ -71,31 +71,6 @@ window.GALERIAS = {
       }
     ]
   },
-  "montagem-industrial": {
-    "titulo": "Montagem e adequação de equipamentos industriais",
-    "fotos": [
-      {
-        "src": "assets/img/projetos/montagem-industrial/01.webp",
-        "w": 562,
-        "h": 373
-      },
-      {
-        "src": "assets/img/projetos/montagem-industrial/02.webp",
-        "w": 571,
-        "h": 358
-      },
-      {
-        "src": "assets/img/projetos/montagem-industrial/03.webp",
-        "w": 574,
-        "h": 358
-      },
-      {
-        "src": "assets/img/projetos/montagem-industrial/04.webp",
-        "w": 720,
-        "h": 1600
-      }
-    ]
-  },
   "coberturas": {
     "titulo": "Troca de telhas e manutenção de telhado industrial",
     "fotos": [
@@ -414,12 +389,14 @@ window.GALERIAS = {
    - vídeos em assets/video/<cliente>/ (mp4 leve + imagem de capa .webp)
    - fotos em assets/img/projetos/<cliente>/ ("p" é a miniatura mostrada na pasta)
    - pasta só de fotos: use "galeria": "<nome>" para reaproveitar uma lista de window.GALERIAS;
-     a miniatura de cada foto é o mesmo arquivo terminado em "-p.webp" */
+     a miniatura de cada foto é o mesmo arquivo terminado em "-p.webp"
+   - cliente com mais de um serviço: use "servicos": [ { titulo, local, galeria }, ... ] (ver "tenda-atacado")
+   - "logo" é a placa padrão de 400x200 em assets/img/clientes/placa-<cliente>.webp */
 window.PASTAS = {
   "mecalux": {
     "nome": "Mecalux",
     "local": "Mecalux do Brasil · Hortolândia/SP",
-    "logo": "assets/img/clientes/mecalux-simbolo.webp",
+    "logo": "assets/img/clientes/placa-mecalux.webp",
     "titulo": "Reservatório, tubulações e troca de 4.700 domus",
     "descricao": "Na fábrica da Mecalux do Brasil, em Hortolândia/SP, a Gomes fez a manutenção do reservatório de água e das tubulações e trocou 4.700 domus da cobertura. As imagens de drone mostram a equipe trabalhando sobre o telhado do galpão.",
     "itens": [
@@ -449,14 +426,14 @@ window.PASTAS = {
   "myralis": {
     "nome": "Myralis",
     "local": "Myralis · Aguaí/SP",
+    "logo": "assets/img/clientes/placa-myralis.webp",
     "titulo": "Piso industrial para indústria farmacêutica",
     "galeria": "myralis"
   },
   "oyo": {
     "nome": "Hotéis OYO",
     "local": "Hotéis OYO · Jacutinga/MG, Piracicaba/SP e São Carlos/SP",
-    "logo": "assets/img/clientes/oyo.webp",
-    "logoLarga": true,
+    "logo": "assets/img/clientes/placa-oyo.webp",
     "titulo": "Pintura de fachadas e letreiros",
     "galeria": "oyo"
   },
@@ -475,38 +452,34 @@ window.PASTAS = {
   "hm-stand": {
     "nome": "HM Engenharia",
     "local": "HM Engenharia · Paulínia/SP",
+    "logo": "assets/img/clientes/placa-hm-engenharia.webp",
     "titulo": "Construção de stand de vendas",
     "galeria": "hm-stand"
   },
   "nortel": {
     "nome": "Nortel",
     "local": "Nortel · Campinas/SP",
-    "logo": "assets/img/clientes/nortel.webp",
-    "logoLarga": true,
+    "logo": "assets/img/clientes/placa-nortel.webp",
     "titulo": "Restauração de fachada e pintura",
     "galeria": "nortel"
   },
-  "tenda-vestiarios": {
+  "tenda-atacado": {
     "nome": "Tenda Atacado",
-    "local": "Tenda Atacado · Guarapiranga, São Paulo/SP",
-    "logo": "assets/img/clientes/tenda-atacado.webp",
-    "logoLarga": true,
-    "titulo": "Reforma dos vestiários",
-    "galeria": "tenda-vestiarios"
-  },
-  "montagem-industrial": {
-    "nome": "Montagem industrial",
-    "local": "Plataformas, guarda-corpos e NR-12",
-    "titulo": "Montagem e adequação de equipamentos",
-    "galeria": "montagem-industrial"
-  },
-  "tenda-telhas": {
-    "nome": "Tenda Atacado",
-    "local": "Tenda Atacado",
-    "logo": "assets/img/clientes/tenda-atacado.webp",
-    "logoLarga": true,
-    "titulo": "Limpeza de telhas e estruturas metálicas",
-    "galeria": "tenda-telhas"
+    "local": "2 serviços realizados",
+    "logo": "assets/img/clientes/placa-tenda-atacado.webp",
+    "titulo": "Reforma de vestiários e limpeza de telhas",
+    "servicos": [
+      {
+        "titulo": "Reforma dos vestiários",
+        "local": "Tenda Atacado · Guarapiranga, São Paulo/SP",
+        "galeria": "tenda-vestiarios"
+      },
+      {
+        "titulo": "Limpeza de telhas e estruturas metálicas",
+        "local": "Tenda Atacado",
+        "galeria": "tenda-telhas"
+      }
+    ]
   },
   "coberturas": {
     "nome": "Coberturas industriais",

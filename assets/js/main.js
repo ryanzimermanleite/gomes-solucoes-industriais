@@ -74,21 +74,12 @@
   var montarPasta = function (dados, botao) {
     var logo = $(".pasta-logo", pasta);
     logo.hidden = !dados.logo;
-    logo.classList.toggle("is-larga", !!dados.logoLarga);
     if (dados.logo) $("#pasta-logo").src = dados.logo;
     $("#pasta-nome").textContent = dados.nome;
     $("#pasta-local").textContent = dados.local;
     $("#pasta-titulo").textContent = dados.titulo;
     $("#pasta-descricao").textContent = dados.descricao || "";
     $("#pasta-descricao").hidden = !dados.descricao;
-
-    // pastas só de fotos apontam para uma galeria de window.GALERIAS; a miniatura é o mesmo arquivo com "-p"
-    var listaFotos = dados.fotos;
-    if (!listaFotos && dados.galeria) {
-      listaFotos = (((window.GALERIAS || {})[dados.galeria] || {}).fotos || []).map(function (f) {
-        return { src: f.src, w: f.w, h: f.h, p: f.src.replace(/\.webp$/, "-p.webp") };
-      });
-    }
 
     var itens = $("#pasta-itens");
     itens.textContent = "";
@@ -112,22 +103,39 @@
     });
     $("#pasta-sub-videos").hidden = !(dados.videos || []).length;
 
-    var fotos = $("#pasta-fotos");
-    fotos.textContent = "";
-    var album = { titulo: dados.titulo + " — " + dados.local, fotos: listaFotos || [] };
-    album.fotos.forEach(function (f, i) {
-      var b = criar("button", "pasta-foto");
-      b.type = "button";
-      b.setAttribute("aria-label", "Ampliar foto " + (i + 1) + " de " + album.fotos.length);
-      var img = criar("img");
-      img.src = f.p || f.src;
-      img.alt = "";
-      img.loading = "lazy";
-      b.appendChild(img);
-      b.addEventListener("click", function () { abrirGaleria(album, b, i); });
-      fotos.appendChild(b);
+    // fotos: um bloco por serviço. Quem tem um serviço só mostra um bloco "Fotos".
+    // Um bloco pode trazer a lista "fotos" ou apontar para uma galeria de window.GALERIAS
+    // (aí a miniatura é o mesmo arquivo terminado em "-p.webp").
+    var fotosDe = function (bloco) {
+      if (bloco.fotos) return bloco.fotos;
+      return (((window.GALERIAS || {})[bloco.galeria] || {}).fotos || []).map(function (f) {
+        return { src: f.src, w: f.w, h: f.h, p: f.src.replace(/\.webp$/, "-p.webp") };
+      });
+    };
+    var blocos = dados.servicos || [dados];
+    var area = $("#pasta-fotos");
+    area.textContent = "";
+    blocos.forEach(function (bloco) {
+      var lista = fotosDe(bloco);
+      if (!lista.length) return;
+      var album = { titulo: bloco.titulo + " — " + bloco.local, fotos: lista };
+      area.appendChild(criar("h3", "pasta-sub", dados.servicos ? bloco.titulo : "Fotos"));
+      if (dados.servicos) area.appendChild(criar("p", "pasta-sub-local", bloco.local + " · " + lista.length + " fotos"));
+      var grade = criar("div", "pasta-grade");
+      lista.forEach(function (f, i) {
+        var b = criar("button", "pasta-foto");
+        b.type = "button";
+        b.setAttribute("aria-label", bloco.titulo + ": ampliar foto " + (i + 1) + " de " + lista.length);
+        var img = criar("img");
+        img.src = f.p || f.src;
+        img.alt = "";
+        img.loading = "lazy";
+        b.appendChild(img);
+        b.addEventListener("click", function () { abrirGaleria(album, b, i); });
+        grade.appendChild(b);
+      });
+      area.appendChild(grade);
     });
-    $("#pasta-sub-fotos").hidden = !album.fotos.length;
   };
 
   // o painel "nasce" do cartão: começa no lugar e no tamanho dele e cresce até o centro da tela
@@ -190,6 +198,239 @@
         else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primeiro.focus(); }
       }
     });
+  }
+
+  /* ---------- nosso trabalho: carrossel (uma linha só; passa sozinho ou arrastando) ---------- */
+  var trilho = $(".acervo");
+  if (trilho) {
+    var slides = $$(".pasta-card", trilho);
+    var setas = $$("[data-acervo]");
+    var arrastou = false;
+    var pausado = false;
+    var naTela = false;
+
+    var passoSlide = function () {
+      return slides.length > 1 ? slides[1].offsetLeft - slides[0].offsetLeft : trilho.clientWidth;
+    };
+    var fimDoTrilho = function () { return trilho.scrollWidth - trilho.clientWidth; };
+    var irPara = function (x) {
+      trilho.scrollTo({ left: Math.max(0, Math.min(fimDoTrilho(), x)), behavior: "smooth" });
+    };
+    var andar = function (dir) {
+      var passo = passoSlide();
+      var atual = Math.round(trilho.scrollLeft / passo);
+      irPara((atual + dir) * passo);
+    };
+    var atualizarSetas = function () {
+      setas.forEach(function (b) {
+        var dir = Number(b.dataset.acervo);
+        b.disabled = dir < 0 ? trilho.scrollLeft < 4 : trilho.scrollLeft > fimDoTrilho() - 4;
+      });
+    };
+    setas.forEach(function (b) {
+      b.addEventListener("click", function () { andar(Number(b.dataset.acervo)); });
+    });
+    trilho.addEventListener("scroll", atualizarSetas, { passive: true });
+    window.addEventListener("resize", atualizarSetas);
+    atualizarSetas();
+
+    // arrastar com o mouse (no celular o dedo já rola o trilho sozinho)
+    var arrasto = null;
+    trilho.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      arrasto = { x: e.clientX, inicio: trilho.scrollLeft };
+      arrastou = false;
+    });
+    window.addEventListener("pointermove", function (e) {
+      if (!arrasto) return;
+      var dx = e.clientX - arrasto.x;
+      if (!arrastou && Math.abs(dx) < 6) return;
+      if (!arrastou) { arrastou = true; trilho.classList.add("is-arrastando"); }
+      trilho.scrollLeft = arrasto.inicio - dx;
+    });
+    var soltar = function () {
+      if (!arrasto) return;
+      arrasto = null;
+      if (!arrastou) return;
+      var passo = passoSlide();
+      irPara(Math.round(trilho.scrollLeft / passo) * passo);
+      window.setTimeout(function () { trilho.classList.remove("is-arrastando"); }, 450);
+    };
+    window.addEventListener("pointerup", soltar);
+    window.addEventListener("pointercancel", soltar);
+    // depois de arrastar, o clique que sobra não pode abrir a pasta
+    trilho.addEventListener("click", function (e) {
+      if (arrastou) { e.preventDefault(); e.stopPropagation(); arrastou = false; }
+    }, true);
+    trilho.addEventListener("dragstart", function (e) { e.preventDefault(); });
+
+    // passa sozinho; para com o mouse em cima, com o foco dentro, com uma pasta aberta ou fora da tela
+    ["pointerenter", "focusin", "touchstart"].forEach(function (ev) {
+      trilho.addEventListener(ev, function () { pausado = true; }, { passive: true });
+    });
+    ["pointerleave", "focusout", "touchend"].forEach(function (ev) {
+      trilho.addEventListener(ev, function () { pausado = false; }, { passive: true });
+    });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) { naTela = entries[0].isIntersecting; }, { threshold: 0.5 }).observe(trilho);
+    } else {
+      naTela = true;
+    }
+    window.setInterval(function () {
+      if (pausado || arrasto || !naTela || document.hidden || pastaAberta()) return;
+      if (trilho.scrollLeft > fimDoTrilho() - 4) irPara(0); else andar(1);
+    }, 4000);
+  }
+
+  /* ---------- blog: Gomes Jornal (uma página por tema; clicar ou arrastar vira a página) ---------- */
+  var palco = $("#gj-palco");
+  if (palco) {
+    var paginas = $$(".gj-pagina", palco);
+    var temas = $$(".gj-tema");
+    var setasJornal = $$(".gj-seta");
+    var atual = 0;
+    var virada = null;       // a virada em andamento: { x, y, v, cena, folha, ang }
+    var arrastouJornal = false;
+
+    var dataJornal = $("#gj-data");
+    if (dataJornal) {
+      var hoje = new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+      dataJornal.textContent = "Campinas · " + hoje;
+    }
+
+    var marcar = function () {
+      paginas.forEach(function (p, i) { p.classList.toggle("is-atual", i === atual); });
+      temas.forEach(function (t, i) {
+        t.classList.toggle("is-ativo", i === atual);
+        t.setAttribute("aria-selected", String(i === atual));
+      });
+      setasJornal.forEach(function (b) {
+        var alvo = atual + Number(b.dataset.passo);
+        b.disabled = alvo < 0 || alvo >= paginas.length;
+      });
+    };
+
+    // metade de uma página: uma cópia dela dentro de uma janela que mostra só um lado
+    var metade = function (classe, pagina) {
+      var caixa = criar("div", classe);
+      var copia = pagina.cloneNode(true);
+      copia.className = "gj-pagina gj-clone";
+      copia.removeAttribute("aria-label");
+      caixa.setAttribute("aria-hidden", "true");
+      caixa.appendChild(copia);
+      return caixa;
+    };
+
+    // Entre a página x (antes) e a y (depois): ângulo 0 mostra x inteira e ângulo "fim" mostra y inteira.
+    // Embaixo ficam a 1ª metade de x e a 2ª de y; a folha que vira tem a 2ª metade de x na frente e a 1ª de y no verso.
+    var montarVirada = function (a, b) {
+      var x = Math.min(a, b), y = Math.max(a, b);
+      var v = window.matchMedia("(max-width: 680px)").matches;   // no celular a dobra é vertical
+      var cena = criar("div", "gj-vira " + (v ? "is-v" : "is-h"));
+      var folha = criar("div", "gj-folha");
+      cena.appendChild(metade("gj-metade gj-esq", paginas[x]));
+      cena.appendChild(metade("gj-metade gj-dir", paginas[y]));
+      folha.appendChild(metade("gj-face gj-frente", paginas[x]));
+      folha.appendChild(metade("gj-face gj-verso", paginas[y]));
+      cena.appendChild(folha);
+      palco.appendChild(cena);
+      palco.classList.add("is-virando");
+      virada = { x: x, y: y, v: v, cena: cena, folha: folha, fim: v ? 180 : -180, ang: 0, de: a, para: b };
+      girar(a === x ? 0 : virada.fim);
+    };
+
+    var girar = function (ang) {
+      virada.ang = ang;
+      virada.folha.style.transform = (virada.v ? "rotateX(" : "rotateY(") + ang + "deg)";
+      virada.cena.style.setProperty("--p", String(Math.abs(ang) / 180));
+    };
+
+    var encerrar = function (chegou) {
+      if (chegou) atual = virada.para;
+      palco.removeChild(virada.cena);
+      palco.classList.remove("is-virando");
+      virada = null;
+      marcar();
+    };
+
+    // leva a folha até o fim (chegou = true) ou de volta ao começo (desistiu de virar)
+    var soltarFolha = function (chegou) {
+      var v = virada;
+      var destino = (chegou ? v.para : v.de) === v.x ? 0 : v.fim;
+      var origem = v.ang;
+      var duracao = 150 + 550 * Math.abs(destino - origem) / 180;
+      var inicio = null;
+      v.animando = true;
+      var quadro = function (agora) {
+        if (virada !== v) return;
+        if (inicio === null) inicio = agora;
+        var t = Math.min(1, (agora - inicio) / duracao);
+        var suave = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        girar(origem + (destino - origem) * suave);
+        if (t < 1) requestAnimationFrame(quadro); else encerrar(chegou);
+      };
+      requestAnimationFrame(quadro);
+    };
+
+    var irParaPagina = function (alvo) {
+      if (virada || alvo === atual || alvo < 0 || alvo >= paginas.length) return;
+      montarVirada(atual, alvo);
+      soltarFolha(true);
+    };
+
+    temas.forEach(function (t) {
+      t.addEventListener("click", function () { irParaPagina(Number(t.dataset.ir)); });
+    });
+    setasJornal.forEach(function (b) {
+      b.addEventListener("click", function () { irParaPagina(atual + Number(b.dataset.passo)); });
+    });
+
+    // arrastar: a folha acompanha o dedo ou o mouse; soltar depois de 1/4 do caminho completa a virada
+    var puxao = null;
+    palco.addEventListener("pointerdown", function (e) {
+      if (virada || (e.pointerType === "mouse" && e.button !== 0)) return;
+      puxao = { x: e.clientX, y: e.clientY, id: e.pointerId };
+      arrastouJornal = false;
+    });
+    palco.addEventListener("pointermove", function (e) {
+      if (!puxao || e.pointerId !== puxao.id) return;
+      var dx = e.clientX - puxao.x, dy = e.clientY - puxao.y;
+      if (!puxao.ativo) {
+        if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy)) return;
+        var alvo = atual + (dx < 0 ? 1 : -1);
+        if (alvo < 0 || alvo >= paginas.length) { puxao = null; return; }
+        puxao.ativo = true;
+        puxao.sentido = dx < 0 ? -1 : 1;
+        arrastouJornal = true;
+        try { palco.setPointerCapture(e.pointerId); } catch (erro) { /* sem captura, segue pelo movimento */ }
+        palco.classList.add("is-arrastando");
+        montarVirada(atual, alvo);
+      }
+      var andou = Math.max(0, Math.min(1, (dx * puxao.sentido) / (palco.clientWidth * 0.5)));
+      puxao.andou = andou;
+      var doComeco = virada.de === virada.x ? 0 : virada.fim;
+      var aoFim = virada.para === virada.x ? 0 : virada.fim;
+      girar(doComeco + (aoFim - doComeco) * andou);
+    });
+    var largar = function (e) {
+      if (!puxao || (e && e.pointerId !== puxao.id)) return;
+      var p = puxao;
+      puxao = null;
+      palco.classList.remove("is-arrastando");
+      if (p.ativo && virada && !virada.animando) soltarFolha((p.andou || 0) > 0.25);
+    };
+    palco.addEventListener("pointerup", largar);
+    palco.addEventListener("pointercancel", largar);
+
+    // clique simples fora de um link vira para a próxima página (da última, volta para a primeira)
+    palco.addEventListener("click", function (e) {
+      if (arrastouJornal) { e.preventDefault(); e.stopPropagation(); arrastouJornal = false; return; }
+      if (e.target.closest("a, button")) return;
+      irParaPagina(atual + 1 < paginas.length ? atual + 1 : 0);
+    }, true);
+    palco.addEventListener("dragstart", function (e) { e.preventDefault(); });
+
+    marcar();
   }
 
   /* ---------- galeria (lightbox) ---------- */
