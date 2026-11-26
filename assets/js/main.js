@@ -282,21 +282,26 @@
     }, 4000);
   }
 
-  /* ---------- blog: Gomes Jornal (uma página por tema; clicar ou arrastar vira a página) ---------- */
+  /* ---------- blog: Gomes Jornal (uma notícia por página; clicar ou arrastar vira a página) ---------- */
   var palco = $("#gj-palco");
   if (palco) {
     var paginas = $$(".gj-pagina", palco);
     var temas = $$(".gj-tema");
     var setasJornal = $$(".gj-seta");
     var atual = 0;
-    var virada = null;       // a virada em andamento: { x, y, v, cena, folha, ang }
+    var virada = null;       // a virada em andamento
     var arrastouJornal = false;
 
+    // data de hoje no cabeçalho; a primeira página (a mais recente) vira "Notícia do dia" se foi publicada hoje
+    var agora = new Date();
     var dataJornal = $("#gj-data");
     if (dataJornal) {
-      var hoje = new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
-      dataJornal.textContent = "Campinas · " + hoje;
+      dataJornal.textContent = "Campinas · " + agora.toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
     }
+    var doisDigitos = function (n) { return (n < 10 ? "0" : "") + n; };
+    var hojeIso = agora.getFullYear() + "-" + doisDigitos(agora.getMonth() + 1) + "-" + doisDigitos(agora.getDate());
+    var selo = paginas.length ? $(".gj-selo", paginas[0]) : null;
+    if (selo && paginas[0].dataset.data === hojeIso) selo.textContent = "Notícia do dia";
 
     var marcar = function () {
       paginas.forEach(function (p, i) { p.classList.toggle("is-atual", i === atual); });
@@ -310,71 +315,121 @@
       });
     };
 
-    // metade de uma página: uma cópia dela dentro de uma janela que mostra só um lado
-    var metade = function (classe, pagina) {
-      var caixa = criar("div", classe);
-      var copia = pagina.cloneNode(true);
-      copia.className = "gj-pagina gj-clone";
-      copia.removeAttribute("aria-label");
-      caixa.setAttribute("aria-hidden", "true");
-      caixa.appendChild(copia);
-      return caixa;
+    /* Geometria da dobra. A linha da dobra passa por (f, meio da altura) e inclina "t" (tangente do ângulo):
+       à esquerda dela fica o que ainda se vê da página de cima; à direita aparece a página de baixo;
+       a aba é a parte da direita espelhada na linha, ou seja, o verso da folha enrolando. */
+    var ladoDaDobra = function (pts, lado, f, t, yc) {
+      var dist = function (p) { return lado * (p[0] - (f + (p[1] - yc) * t)); };
+      var res = [];
+      pts.forEach(function (a, i) {
+        var b = pts[(i + 1) % pts.length];
+        var da = dist(a), db = dist(b);
+        if (da >= 0) res.push(a);
+        if ((da > 0 && db < 0) || (da < 0 && db > 0)) {
+          var k = da / (da - db);
+          res.push([a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k]);
+        }
+      });
+      return res;
+    };
+    var poligono = function (pts) {
+      if (pts.length < 3) return "polygon(0 0, 0 0, 0 0)";
+      return "polygon(" + pts.map(function (p) { return p[0].toFixed(1) + "px " + p[1].toFixed(1) + "px"; }).join(",") + ")";
+    };
+    var recorte = function (el, valor) { el.style.webkitClipPath = valor; el.style.clipPath = valor; };
+
+    var INCLINACAO = 0.3;   // radianos no meio da virada: é o que faz a folha sair pelo canto
+
+    // p = 0 mostra a página x inteira; p = 1 mostra a y inteira
+    var desenhar = function (p) {
+      var v = virada;
+      v.p = p;
+      var W = palco.clientWidth, H = palco.clientHeight, yc = H / 2;
+      var inclinacao = Math.min(INCLINACAO, Math.atan(W * 0.3 / yc));   // página alta (celular) inclina menos
+      var ang = v.canto * inclinacao * Math.sin(Math.PI * p);
+      var t = Math.tan(ang);
+      var folga = yc * Math.tan(inclinacao);
+      var f = (W + folga) - p * (W + 2 * folga);
+      var folhaToda = [[0, 0], [W, 0], [W, H], [0, H]];
+      var esq = ladoDaDobra(folhaToda, -1, f, t, yc);
+      var dir = ladoDaDobra(folhaToda, 1, f, t, yc);
+      var ux = t / Math.sqrt(1 + t * t), uy = 1 / Math.sqrt(1 + t * t);
+      var aba = dir.map(function (q) {
+        var dx = q[0] - f, dy = q[1] - yc;
+        var k = 2 * (dx * ux + dy * uy);
+        return [f + k * ux - dx, yc + k * uy - dy];
+      });
+      recorte(paginas[v.x], poligono(esq));
+      recorte(v.sombra, poligono(dir));
+      recorte(v.aba, poligono(aba));
+      var largura = Math.max(0, Math.min(W, W - f + folga));
+      var giro = "rotate(" + (-ang) + "rad)";
+      var luz = v.luz.style, sob = v.sob.style;
+      luz.left = (f - largura) + "px"; luz.width = largura + "px";
+      luz.top = (yc - 1.5 * H) + "px"; luz.height = (3 * H) + "px";
+      luz.transformOrigin = "100% 50%"; luz.transform = giro;
+      sob.left = f + "px"; sob.width = Math.min(largura * 0.55 + 12, 170) + "px";
+      sob.top = luz.top; sob.height = luz.height;
+      sob.transformOrigin = "0 50%"; sob.transform = giro;
     };
 
-    // Entre a página x (antes) e a y (depois): ângulo 0 mostra x inteira e ângulo "fim" mostra y inteira.
-    // Embaixo ficam a 1ª metade de x e a 2ª de y; a folha que vira tem a 2ª metade de x na frente e a 1ª de y no verso.
-    var montarVirada = function (a, b) {
+    var montarVirada = function (a, b, canto) {
       var x = Math.min(a, b), y = Math.max(a, b);
-      var v = window.matchMedia("(max-width: 680px)").matches;   // no celular a dobra é vertical
-      var cena = criar("div", "gj-vira " + (v ? "is-v" : "is-h"));
-      var folha = criar("div", "gj-folha");
-      cena.appendChild(metade("gj-metade gj-esq", paginas[x]));
-      cena.appendChild(metade("gj-metade gj-dir", paginas[y]));
-      folha.appendChild(metade("gj-face gj-frente", paginas[x]));
-      folha.appendChild(metade("gj-face gj-verso", paginas[y]));
-      cena.appendChild(folha);
+      var cena = criar("div", "gj-vira");
+      var sombra = criar("div", "gj-sombra");
+      var caixa = criar("div", "gj-aba-caixa");
+      var aba = criar("div", "gj-aba");
+      var sob = criar("i"), luz = criar("i");
+      sombra.appendChild(sob);
+      aba.appendChild(luz);
+      caixa.appendChild(aba);
+      cena.appendChild(sombra);
+      cena.appendChild(caixa);
+      cena.setAttribute("aria-hidden", "true");
       palco.appendChild(cena);
-      palco.classList.add("is-virando");
-      virada = { x: x, y: y, v: v, cena: cena, folha: folha, fim: v ? 180 : -180, ang: 0, de: a, para: b };
-      girar(a === x ? 0 : virada.fim);
-    };
-
-    var girar = function (ang) {
-      virada.ang = ang;
-      virada.folha.style.transform = (virada.v ? "rotateX(" : "rotateY(") + ang + "deg)";
-      virada.cena.style.setProperty("--p", String(Math.abs(ang) / 180));
+      paginas[x].classList.add("gj-cima");
+      paginas[y].classList.add("gj-baixo");
+      virada = { x: x, y: y, de: a, para: b, canto: canto || -1, cena: cena, sombra: sombra, aba: aba, sob: sob, luz: luz, p: 0 };
+      desenhar(a === x ? 0 : 1);
     };
 
     var encerrar = function (chegou) {
-      if (chegou) atual = virada.para;
-      palco.removeChild(virada.cena);
-      palco.classList.remove("is-virando");
+      var v = virada;
+      if (chegou) atual = v.para;
+      recorte(paginas[v.x], "");
+      paginas[v.x].classList.remove("gj-cima");
+      paginas[v.y].classList.remove("gj-baixo");
+      palco.removeChild(v.cena);
       virada = null;
       marcar();
+      // se a pessoa estava no meio de um texto comprido (celular), a notícia nova começa do título
+      if (chegou && palco.getBoundingClientRect().top < 0) {
+        $("#jornal").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     };
 
     // leva a folha até o fim (chegou = true) ou de volta ao começo (desistiu de virar)
     var soltarFolha = function (chegou) {
       var v = virada;
-      var destino = (chegou ? v.para : v.de) === v.x ? 0 : v.fim;
-      var origem = v.ang;
-      var duracao = 150 + 550 * Math.abs(destino - origem) / 180;
+      var destino = (chegou ? v.para : v.de) === v.x ? 0 : 1;
+      var origem = v.p;
+      var duracao = 220 + 880 * Math.abs(destino - origem);
       var inicio = null;
       v.animando = true;
-      var quadro = function (agora) {
+      var quadro = function (tempo) {
         if (virada !== v) return;
-        if (inicio === null) inicio = agora;
-        var t = Math.min(1, (agora - inicio) / duracao);
-        var suave = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-        girar(origem + (destino - origem) * suave);
-        if (t < 1) requestAnimationFrame(quadro); else encerrar(chegou);
+        if (inicio === null) inicio = tempo;
+        var k = Math.min(1, (tempo - inicio) / duracao);
+        var suave = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+        desenhar(origem + (destino - origem) * suave);
+        if (k < 1) requestAnimationFrame(quadro); else encerrar(chegou);
       };
       requestAnimationFrame(quadro);
     };
 
-    var irParaPagina = function (alvo) {
+    var irParaPagina = function (alvo, canto) {
       if (virada || alvo === atual || alvo < 0 || alvo >= paginas.length) return;
-      montarVirada(atual, alvo);
+      montarVirada(atual, alvo, canto);
       soltarFolha(true);
     };
 
@@ -389,7 +444,10 @@
     var puxao = null;
     palco.addEventListener("pointerdown", function (e) {
       if (virada || (e.pointerType === "mouse" && e.button !== 0)) return;
-      puxao = { x: e.clientX, y: e.clientY, id: e.pointerId };
+      var caixa = palco.getBoundingClientRect();
+      // puxou pela metade de cima: a folha sai pelo canto de cima; pela de baixo, sai pelo de baixo
+      var naTela = Math.max(caixa.top, 0) + (Math.min(caixa.bottom, window.innerHeight) - Math.max(caixa.top, 0)) / 2;
+      puxao = { x: e.clientX, y: e.clientY, id: e.pointerId, canto: e.clientY < naTela ? 1 : -1 };
       arrastouJornal = false;
     });
     palco.addEventListener("pointermove", function (e) {
@@ -404,13 +462,11 @@
         arrastouJornal = true;
         try { palco.setPointerCapture(e.pointerId); } catch (erro) { /* sem captura, segue pelo movimento */ }
         palco.classList.add("is-arrastando");
-        montarVirada(atual, alvo);
+        montarVirada(atual, alvo, puxao.canto);
       }
-      var andou = Math.max(0, Math.min(1, (dx * puxao.sentido) / (palco.clientWidth * 0.5)));
+      var andou = Math.max(0, Math.min(1, (dx * puxao.sentido) / (palco.clientWidth * 0.75)));
       puxao.andou = andou;
-      var doComeco = virada.de === virada.x ? 0 : virada.fim;
-      var aoFim = virada.para === virada.x ? 0 : virada.fim;
-      girar(doComeco + (aoFim - doComeco) * andou);
+      desenhar(virada.de === virada.x ? andou : 1 - andou);
     });
     var largar = function (e) {
       if (!puxao || (e && e.pointerId !== puxao.id)) return;
@@ -422,13 +478,14 @@
     palco.addEventListener("pointerup", largar);
     palco.addEventListener("pointercancel", largar);
 
-    // clique simples fora de um link vira para a próxima página (da última, volta para a primeira)
+    // clique simples fora de um link vira para a próxima notícia (da última, volta para a primeira)
     palco.addEventListener("click", function (e) {
       if (arrastouJornal) { e.preventDefault(); e.stopPropagation(); arrastouJornal = false; return; }
       if (e.target.closest("a, button")) return;
+      if (String(window.getSelection && window.getSelection()) !== "") return;   // estava selecionando texto
       irParaPagina(atual + 1 < paginas.length ? atual + 1 : 0);
     }, true);
-    palco.addEventListener("dragstart", function (e) { e.preventDefault(); });
+    window.addEventListener("resize", function () { if (virada) desenhar(virada.p); });
 
     marcar();
   }

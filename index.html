@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Playfair+Display:wght@700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="assets/img/hero.webp" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/style.css?v=7">
+  <link rel="stylesheet" href="assets/css/style.css?v=8">
   <script>document.documentElement.classList.add("js");</script>
 
   <script type="application/ld+json">
@@ -480,8 +480,9 @@
     </section>
 
     <!-- ===================== BLOG: GOMES JORNAL ===================== -->
-    <!-- Uma página por tema, com 3 colunas. Clicar ou arrastar vira a página (assets/js/main.js).
-         Cada matéria aponta para um artigo em blog/. Novo tema: copie um <article class="gj-pagina"> e um botão de tema. -->
+    <!-- Uma notícia completa por página, da mais recente para a mais antiga. Clicar ou arrastar vira a página (assets/js/main.js).
+         O texto de cada página é o mesmo do artigo em blog/. Nova notícia: crie o arquivo em blog/, copie um
+         <article class="gj-pagina"> para o começo da lista (com a data em data-data) e ajuste os botões de tema. -->
     <section class="section section-dark" id="blog" aria-labelledby="gj-titulo">
       <div class="container">
         <div class="gj reveal" id="jornal">
@@ -501,138 +502,138 @@
           </div>
 
           <div class="gj-palco" id="gj-palco">
-            <article class="gj-pagina is-atual" data-tema="Coberturas" aria-label="Caderno Coberturas, página 1 de 3">
-              <p class="gj-info"><span>Caderno <b>Coberturas</b> · Edição de 26/11/2026</span><span>3 matérias · leitura de ~4 min</span></p>
-              <div class="gj-colunas">
-                <section class="gj-col gj-manchete">
-                  <p class="gj-rotulo">Manchete</p>
+            <article class="gj-pagina is-atual" data-tema="Coberturas" data-data="2026-11-26" aria-label="Coberturas: página 1 de 3">
+              <p class="gj-info"><span><b class="gj-selo">Mais recente</b>Caderno <b>Coberturas</b> · Edição de 26/11/2026</span><span>Leitura de ~4 min</span></p>
+              <h3 class="gj-manchete">Domus e telhas translúcidas: quando é hora de trocar</h3>
+              <p class="gj-olho">Domus e telhas translúcidas levam luz natural para dentro do galpão e reduzem o uso de lâmpadas durante o dia. Com os anos de sol, chuva e variação de temperatura, o material perde transparência e resistência. Saber a hora de trocar evita goteiras, perda de luminosidade e risco para quem sobe no telhado.</p>
+              <p class="gj-assina">Equipe Gomes Engenharia · <time datetime="2026-11-26">26/11/2026</time></p>
+              <div class="gj-texto">
                 <svg class="gj-arte" viewBox="0 0 520 170" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
-                  <defs><pattern id="gj-p1" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#2a7b24" opacity=".28"/></pattern></defs>
-                  <rect width="520" height="170" fill="#e6f1e4"/><rect width="520" height="170" fill="url(#gj-p1)"/>
-                  <circle cx="440" cy="46" r="24" fill="#5fd072"/>
-                  <path d="M40 150V92l90-42 90 42 90-42 90 42v58z" fill="#0b0e4f"/>
-                  <path d="M84 88l34-16v38l-34 16zM264 88l34-16v38l-34 16z" fill="#bfe3ff"/>
-                  <path d="M174 96l34 16v26l-34-16zM354 96l34 16v26l-34-16z" fill="#2b30a6"/>
-                  <rect x="20" y="150" width="480" height="6" rx="3" fill="#120a78"/>
+                <defs><pattern id="gj-p1" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#2a7b24" opacity=".28"/></pattern></defs>
+                <rect width="520" height="170" fill="#e6f1e4"/><rect width="520" height="170" fill="url(#gj-p1)"/>
+                <circle cx="440" cy="46" r="24" fill="#5fd072"/>
+                <path d="M40 150V92l90-42 90 42 90-42 90 42v58z" fill="#0b0e4f"/>
+                <path d="M84 88l34-16v38l-34 16zM264 88l34-16v38l-34 16z" fill="#bfe3ff"/>
+                <path d="M174 96l34 16v26l-34-16zM354 96l34 16v26l-34-16z" fill="#2b30a6"/>
+                <rect x="20" y="150" width="480" height="6" rx="3" fill="#120a78"/>
                 </svg>
-                  <h3><a href="blog/quando-trocar-domus-e-telhas-translucidas.html">Domus e telhas translúcidas: quando é hora de trocar</a></h3>
-                  <p>Os sinais de que a iluminação natural do galpão chegou ao fim da vida útil e como a troca é feita com segurança.</p>
-                  <p class="gj-pe"><a class="gj-ler" href="blog/quando-trocar-domus-e-telhas-translucidas.html">Continuar lendo ›</a><span>Equipe Gomes · 26/11/2026</span></p>
-                </section>
-                <section class="gj-col">
-                  <p class="gj-rotulo">Também nesta edição</p>
-                  <h3><a href="blog/quando-trocar-domus-e-telhas-translucidas.html#por-que-nao-adiar">Peça translúcida envelhecida não aguenta o peso de uma pessoa</a></h3>
-                <p>Quando a cobertura deixa de iluminar, a conta aparece na energia: mais lâmpadas acesas, por mais horas. A infiltração é o segundo problema, porque a água atinge estoque, máquinas e piso.</p>
-                <p>O ponto mais sério é a segurança. Domus e telhas translúcidas não são feitos para receber peso, e os envelhecidos quebram com facilidade. É um risco real de queda em qualquer manutenção futura.</p>
-                  <p class="gj-pe"><a class="gj-ler" href="blog/quando-trocar-domus-e-telhas-translucidas.html#por-que-nao-adiar">Continuar lendo ›</a><span>Equipe Gomes · 26/11/2026</span></p>
-                </section>
-                <section class="gj-col">
-                  <p class="gj-rotulo">Em resumo</p>
-                  <h3><a href="blog/quando-trocar-domus-e-telhas-translucidas.html#sinais">Quatro sinais de que a troca está próxima</a></h3>
-                  <ul>
-                  <li>Amarelamento e opacidade: passa cada vez menos luz.</li>
-                  <li>Trincas e fissuras perto das fixações.</li>
-                  <li>Goteiras e manchas em volta do domus.</li>
-                  <li>Parafusos soltos ou oxidados e vedação ressecada.</li>
-                  </ul>
-                  <p class="gj-pe"><a class="gj-ler" href="blog/quando-trocar-domus-e-telhas-translucidas.html#sinais">Continuar lendo ›</a><span>Equipe Gomes · 26/11/2026</span></p>
-                </section>
+                <h4>Sinais de que a troca está próxima</h4>
+                <ul>
+                <li><strong>Amarelamento e opacidade:</strong> a peça continua inteira, mas deixa passar cada vez menos luz.</li>
+                <li><strong>Trincas e fissuras:</strong> o material resseca, fica quebradiço e começa a rachar perto das fixações.</li>
+                <li><strong>Goteiras e manchas:</strong> infiltração em volta do domus indica vedação vencida ou peça deformada.</li>
+                <li><strong>Fixações soltas ou oxidadas:</strong> parafusos e arruelas de vedação também envelhecem e precisam ser revisados.</li>
+                </ul>
+
+                <h4>Por que não vale a pena adiar</h4>
+                <p>Quando a cobertura deixa de iluminar, a conta aparece na energia: mais lâmpadas acesas, por mais horas. A infiltração é o segundo problema, porque a água que entra pelo telhado atinge estoque, máquinas e piso.</p>
+                <p>O ponto mais sério é a segurança. Peças translúcidas não são feitas para receber o peso de uma pessoa, e as envelhecidas quebram com facilidade. Um telhado com domus degradados é um risco real de queda em qualquer manutenção futura.</p>
+
+                <h4>Como a troca é feita</h4>
+                <ul>
+                <li><strong>Inspeção e levantamento:</strong> contagem das peças, medidas e estado das fixações e da estrutura.</li>
+                <li><strong>Escolha do material:</strong> as opções mais comuns são policarbonato, fibra de vidro e acrílico, e a decisão depende do projeto da cobertura.</li>
+                <li><strong>Planejamento por setores:</strong> a troca avança em trechos, para a fábrica ou o centro de distribuição seguir operando embaixo.</li>
+                <li><strong>Trabalho em altura:</strong> equipe treinada conforme a NR-35, com ancoragem e linha de vida, sem pisar nas peças translúcidas.</li>
+                <li><strong>Vedação e conferência:</strong> cada peça nova é fixada, vedada e conferida antes de a equipe seguir para o próximo trecho.</li>
+                </ul>
+
+                <h4>Um exemplo de obra</h4>
+                <p>Na fábrica da Mecalux do Brasil, em Hortolândia/SP, a Gomes trocou 4.700 domus da cobertura. Os vídeos e as fotos de drone desse trabalho estão em <a href="#trabalho">Nosso trabalho</a>.</p>
               </div>
-              <p class="gj-rodape"><span>Gomes Jornal · Caderno Coberturas</span><span>Página 1 de 3</span></p>
+              <p class="gj-rodape"><span>Gomes Jornal · Caderno Coberturas</span><a class="gj-ler" href="blog/quando-trocar-domus-e-telhas-translucidas.html">Abrir em página própria ›</a><span>Página 1 de 3</span></p>
             </article>
-            <article class="gj-pagina" data-tema="Manutenção" aria-label="Caderno Manutenção, página 2 de 3">
-              <p class="gj-info"><span>Caderno <b>Manutenção</b> · Edição de 26/11/2026</span><span>3 matérias · leitura de ~4 min</span></p>
-              <div class="gj-colunas">
-                <section class="gj-col gj-manchete">
-                  <p class="gj-rotulo">Manchete</p>
+            <article class="gj-pagina" data-tema="Manutenção" data-data="2026-11-26" aria-label="Manutenção: página 2 de 3">
+              <p class="gj-info"><span><b class="gj-selo" hidden>Mais recente</b>Caderno <b>Manutenção</b> · Edição de 26/11/2026</span><span>Leitura de ~4 min</span></p>
+              <h3 class="gj-manchete">Manutenção preventiva de cobertura industrial: o que revisar antes das chuvas</h3>
+              <p class="gj-olho">A maior parte das goteiras de um galpão começa pequena: uma calha entupida, um parafuso com a vedação ressecada, uma telha amassada. Uma revisão antes do período de chuvas encontra esses pontos enquanto o conserto ainda é simples e barato.</p>
+              <p class="gj-assina">Equipe Gomes Engenharia · <time datetime="2026-11-26">26/11/2026</time></p>
+              <div class="gj-texto">
                 <svg class="gj-arte" viewBox="0 0 520 170" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
-                  <defs><pattern id="gj-p2" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#2a7b24" opacity=".28"/></pattern></defs>
-                  <rect width="520" height="170" fill="#e6f1e4"/><rect width="520" height="170" fill="url(#gj-p2)"/>
-                  <g fill="#0b0e4f"><circle cx="190" cy="88" r="44"/>
-                  <rect x="178" y="26" width="24" height="124" rx="5"/><rect x="128" y="76" width="124" height="24" rx="5"/>
-                  <rect x="178" y="26" width="24" height="124" rx="5" transform="rotate(45 190 88)"/><rect x="178" y="26" width="24" height="124" rx="5" transform="rotate(-45 190 88)"/></g>
-                  <circle cx="190" cy="88" r="17" fill="#e6f1e4"/>
-                  <g fill="#2a7b24"><circle cx="330" cy="70" r="27"/>
-                  <rect x="322" y="32" width="16" height="76" rx="4"/><rect x="292" y="62" width="76" height="16" rx="4"/>
-                  <rect x="322" y="32" width="16" height="76" rx="4" transform="rotate(45 330 70)"/><rect x="322" y="32" width="16" height="76" rx="4" transform="rotate(-45 330 70)"/></g>
-                  <circle cx="330" cy="70" r="10" fill="#e6f1e4"/>
-                  <path d="M392 144l52-52a22 22 0 1 1 14 14l-52 52z" fill="#120a78"/>
+                <defs><pattern id="gj-p2" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#2a7b24" opacity=".28"/></pattern></defs>
+                <rect width="520" height="170" fill="#e6f1e4"/><rect width="520" height="170" fill="url(#gj-p2)"/>
+                <g fill="#0b0e4f"><circle cx="190" cy="88" r="44"/>
+                <rect x="178" y="26" width="24" height="124" rx="5"/><rect x="128" y="76" width="124" height="24" rx="5"/>
+                <rect x="178" y="26" width="24" height="124" rx="5" transform="rotate(45 190 88)"/><rect x="178" y="26" width="24" height="124" rx="5" transform="rotate(-45 190 88)"/></g>
+                <circle cx="190" cy="88" r="17" fill="#e6f1e4"/>
+                <g fill="#2a7b24"><circle cx="330" cy="70" r="27"/>
+                <rect x="322" y="32" width="16" height="76" rx="4"/><rect x="292" y="62" width="76" height="16" rx="4"/>
+                <rect x="322" y="32" width="16" height="76" rx="4" transform="rotate(45 330 70)"/><rect x="322" y="32" width="16" height="76" rx="4" transform="rotate(-45 330 70)"/></g>
+                <circle cx="330" cy="70" r="10" fill="#e6f1e4"/>
+                <path d="M392 144l52-52a22 22 0 1 1 14 14l-52 52z" fill="#120a78"/>
                 </svg>
-                  <h3><a href="blog/manutencao-preventiva-de-cobertura-industrial.html">Manutenção preventiva de cobertura industrial: o que revisar antes das chuvas</a></h3>
-                  <p>Um roteiro do que inspecionar no telhado do galpão para chegar à temporada de chuvas sem goteiras nem paradas.</p>
-                  <p class="gj-pe"><a class="gj-ler" href="blog/manutencao-preventiva-de-cobertura-industrial.html">Continuar lendo ›</a><span>Equipe Gomes · 26/11/2026</span></p>
-                </section>
-                <section class="gj-col">
-                  <p class="gj-rotulo">Também nesta edição</p>
-                  <h3><a href="blog/manutencao-preventiva-de-cobertura-industrial.html#preventiva-custa-menos">Preventiva custa menos que corretiva</a></h3>
-                <p>Trocar uma vedação ou limpar uma calha é um serviço rápido. Já uma infiltração que atinge mercadoria, máquina ou instalação elétrica vira parada de operação e prejuízo.</p>
-                <p>A revisão programada também permite agendar o serviço para o horário de menor impacto na rotina da empresa.</p>
-                  <p class="gj-pe"><a class="gj-ler" href="blog/manutencao-preventiva-de-cobertura-industrial.html#preventiva-custa-menos">Continuar lendo ›</a><span>Equipe Gomes · 26/11/2026</span></p>
-                </section>
-                <section class="gj-col">
-                  <p class="gj-rotulo">Em resumo</p>
-                  <h3><a href="blog/manutencao-preventiva-de-cobertura-industrial.html#revisao">O que entra na revisão do telhado</a></h3>
-                  <ul>
-                  <li>Calhas e condutores limpos e com caimento.</li>
-                  <li>Telhas amassadas, furadas ou corroídas.</li>
-                  <li>Parafusos frouxos e vedação ressecada.</li>
-                  <li>Rufos, cumeeiras e arremates.</li>
-                  <li>Domus, exaustores e estrutura metálica.</li>
-                  </ul>
-                  <p class="gj-pe"><a class="gj-ler" href="blog/manutencao-preventiva-de-cobertura-industrial.html#revisao">Continuar lendo ›</a><span>Equipe Gomes · 26/11/2026</span></p>
-                </section>
+                <h4>O que entra na revisão</h4>
+                <ul>
+                <li><strong>Calhas e condutores:</strong> limpeza de folhas e resíduos e conferência do caimento, para a água escoar sem transbordar para dentro do prédio.</li>
+                <li><strong>Telhas:</strong> procura por peças amassadas, furadas, corroídas ou deslocadas pelo vento.</li>
+                <li><strong>Fixações:</strong> parafusos frouxos e arruelas de vedação ressecadas estão entre as causas mais comuns de infiltração.</li>
+                <li><strong>Rufos, cumeeiras e arremates:</strong> os encontros entre telhado e parede concentram boa parte dos vazamentos.</li>
+                <li><strong>Domus e telhas translúcidas:</strong> peças trincadas ou opacas devem ser programadas para troca.</li>
+                <li><strong>Exaustores eólicos:</strong> conferir se giram livres e se a base está bem vedada.</li>
+                <li><strong>Estrutura metálica:</strong> pontos de corrosão pedem tratamento e repintura antes de avançarem.</li>
+                </ul>
+
+                <h4>Quando fazer</h4>
+                <p>O melhor momento é antes da temporada de chuvas, com tempo para corrigir o que for encontrado. Vale repetir a inspeção depois de temporais e ventos fortes, que costumam soltar fixações e deslocar telhas. Em operações sensíveis a água, como áreas de estoque e de produção, o intervalo entre revisões deve ser menor.</p>
+
+                <h4>Segurança vem primeiro</h4>
+                <p>Subir em telhado é trabalho em altura e segue a NR-35: análise de risco, equipe treinada, ancoragem e linha de vida. Telhas e domus translúcidos não suportam o peso de uma pessoa, e por isso o deslocamento sobre a cobertura é planejado antes de a equipe subir.</p>
+
+                <h4>Preventiva custa menos que corretiva</h4>
+                <p>Trocar uma vedação ou limpar uma calha é um serviço rápido. Já uma infiltração que atinge mercadoria, máquina ou instalação elétrica vira parada de operação e prejuízo. A revisão programada também permite agendar o serviço para o horário de menor impacto na rotina da empresa.</p>
+                <p>A Gomes faz troca de telhas, limpeza de coberturas e manutenção de estruturas metálicas. Alguns desses trabalhos estão em <a href="#trabalho">Nosso trabalho</a>.</p>
               </div>
-              <p class="gj-rodape"><span>Gomes Jornal · Caderno Manutenção</span><span>Página 2 de 3</span></p>
+              <p class="gj-rodape"><span>Gomes Jornal · Caderno Manutenção</span><a class="gj-ler" href="blog/manutencao-preventiva-de-cobertura-industrial.html">Abrir em página própria ›</a><span>Página 2 de 3</span></p>
             </article>
-            <article class="gj-pagina" data-tema="Pintura" aria-label="Caderno Pintura, página 3 de 3">
-              <p class="gj-info"><span>Caderno <b>Pintura</b> · Edição de 26/11/2026</span><span>3 matérias · leitura de ~4 min</span></p>
-              <div class="gj-colunas">
-                <section class="gj-col gj-manchete">
-                  <p class="gj-rotulo">Manchete</p>
+            <article class="gj-pagina" data-tema="Pintura" data-data="2026-11-26" aria-label="Pintura: página 3 de 3">
+              <p class="gj-info"><span><b class="gj-selo" hidden>Mais recente</b>Caderno <b>Pintura</b> · Edição de 26/11/2026</span><span>Leitura de ~4 min</span></p>
+              <h3 class="gj-manchete">Pintura de fachada comercial: como planejar sem parar a operação</h3>
+              <p class="gj-olho">A fachada é o primeiro contato do cliente com o negócio. O desafio é que hotéis, lojas e prédios comerciais não podem fechar as portas para pintar. Com planejamento, a obra acontece em etapas e a operação segue normalmente.</p>
+              <p class="gj-assina">Equipe Gomes Engenharia · <time datetime="2026-11-26">26/11/2026</time></p>
+              <div class="gj-texto">
                 <svg class="gj-arte" viewBox="0 0 520 170" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
-                  <defs><pattern id="gj-p3" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#2a7b24" opacity=".28"/></pattern></defs>
-                  <rect width="520" height="170" fill="#e6f1e4"/><rect width="520" height="170" fill="url(#gj-p3)"/>
-                  <rect x="60" y="34" width="200" height="122" fill="#0b0e4f"/>
-                  <g fill="#bfe3ff"><rect x="80" y="52" width="30" height="24"/><rect x="126" y="52" width="30" height="24"/><rect x="172" y="52" width="30" height="24"/><rect x="218" y="52" width="24" height="24"/>
-                  <rect x="80" y="92" width="30" height="24"/><rect x="126" y="92" width="30" height="24"/></g>
-                  <rect x="166" y="86" width="94" height="70" fill="#2a7b24"/>
-                  <rect x="300" y="40" width="120" height="38" rx="9" fill="#2a7b24"/><rect x="300" y="40" width="120" height="12" rx="6" fill="#5fd072"/>
-                  <path d="M420 59h26v36h-78v22" fill="none" stroke="#120a78" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-                  <rect x="358" y="114" width="20" height="46" rx="7" fill="#120a78"/>
-                  <rect x="40" y="154" width="440" height="6" rx="3" fill="#120a78"/>
+                <defs><pattern id="gj-p3" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#2a7b24" opacity=".28"/></pattern></defs>
+                <rect width="520" height="170" fill="#e6f1e4"/><rect width="520" height="170" fill="url(#gj-p3)"/>
+                <rect x="60" y="34" width="200" height="122" fill="#0b0e4f"/>
+                <g fill="#bfe3ff"><rect x="80" y="52" width="30" height="24"/><rect x="126" y="52" width="30" height="24"/><rect x="172" y="52" width="30" height="24"/><rect x="218" y="52" width="24" height="24"/>
+                <rect x="80" y="92" width="30" height="24"/><rect x="126" y="92" width="30" height="24"/></g>
+                <rect x="166" y="86" width="94" height="70" fill="#2a7b24"/>
+                <rect x="300" y="40" width="120" height="38" rx="9" fill="#2a7b24"/><rect x="300" y="40" width="120" height="12" rx="6" fill="#5fd072"/>
+                <path d="M420 59h26v36h-78v22" fill="none" stroke="#120a78" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="358" y="114" width="20" height="46" rx="7" fill="#120a78"/>
+                <rect x="40" y="154" width="440" height="6" rx="3" fill="#120a78"/>
                 </svg>
-                  <h3><a href="blog/pintura-de-fachada-comercial-sem-parar-a-operacao.html">Pintura de fachada comercial: como planejar sem parar a operação</a></h3>
-                  <p>Hotéis, lojas e escritórios não podem fechar para pintar. Veja as etapas que mantêm o negócio funcionando durante a obra.</p>
-                  <p class="gj-pe"><a class="gj-ler" href="blog/pintura-de-fachada-comercial-sem-parar-a-operacao.html">Continuar lendo ›</a><span>Equipe Gomes · 26/11/2026</span></p>
-                </section>
-                <section class="gj-col">
-                  <p class="gj-rotulo">Também nesta edição</p>
-                  <h3><a href="blog/pintura-de-fachada-comercial-sem-parar-a-operacao.html#acesso">Andaime, plataforma, balancim ou corda: qual acesso usar</a></h3>
-                <p>A escolha depende da altura do prédio, do recuo disponível na calçada e das interferências, como marquises, letreiros e rede elétrica.</p>
-                <p>O acesso por corda, por exemplo, ocupa pouco espaço no térreo e libera a entrada do prédio enquanto a equipe trabalha na fachada.</p>
-                  <p class="gj-pe"><a class="gj-ler" href="blog/pintura-de-fachada-comercial-sem-parar-a-operacao.html#acesso">Continuar lendo ›</a><span>Equipe Gomes · 26/11/2026</span></p>
-                </section>
-                <section class="gj-col">
-                  <p class="gj-rotulo">Em resumo</p>
-                  <h3><a href="blog/pintura-de-fachada-comercial-sem-parar-a-operacao.html#diagnostico">Cinco etapas de uma pintura sem fechar as portas</a></h3>
-                  <ul>
-                  <li>Diagnóstico de trincas e infiltrações.</li>
-                  <li>Escolha do acesso à fachada.</li>
-                  <li>Cronograma por trechos e horários.</li>
-                  <li>Preparação da superfície.</li>
-                  <li>Tinta para exterior e acabamento.</li>
-                  </ul>
-                  <p class="gj-pe"><a class="gj-ler" href="blog/pintura-de-fachada-comercial-sem-parar-a-operacao.html#diagnostico">Continuar lendo ›</a><span>Equipe Gomes · 26/11/2026</span></p>
-                </section>
+                <h4>1. Diagnóstico da fachada</h4>
+                <p>Antes da tinta vem a vistoria. Trincas, pontos de infiltração, reboco solto e pintura descascando precisam ser tratados primeiro. Pintar por cima de um problema só o esconde por alguns meses.</p>
+
+                <h4>2. Escolha do acesso</h4>
+                <p>Andaime, plataforma elevatória, balancim ou acesso por corda: a escolha depende da altura do prédio, do recuo disponível na calçada e das interferências, como marquises, letreiros e rede elétrica. O acesso por corda, por exemplo, ocupa pouco espaço no térreo e libera a entrada do prédio.</p>
+
+                <h4>3. Cronograma por etapas</h4>
+                <ul>
+                <li>Dividir a fachada em trechos, para nunca interditar todas as entradas ao mesmo tempo.</li>
+                <li>Concentrar os trabalhos sobre acessos e vitrines nos horários de menor movimento.</li>
+                <li>Isolar e sinalizar a área abaixo do trecho em execução.</li>
+                <li>Proteger vidros, pisos, veículos e letreiros contra respingos.</li>
+                </ul>
+
+                <h4>4. Preparação da superfície</h4>
+                <p>Lavagem, raspagem das partes soltas, correção de trincas e aplicação de fundo ou selador. É a etapa que mais influencia a durabilidade: uma tinta boa sobre uma base mal preparada descasca cedo.</p>
+
+                <h4>5. Tinta e acabamento</h4>
+                <p>Em área externa, o padrão é tinta própria para exterior, resistente a sol e chuva, nas cores da marca. Quando a fachada leva letreiro pintado, ele entra no mesmo cronograma, com o desenho conferido antes da execução.</p>
+
+                <h4>Exemplos de obra</h4>
+                <p>A Gomes pintou fachadas e letreiros de hotéis OYO em Jacutinga/MG, Piracicaba/SP e São Carlos/SP e o brise do Hotel Park Tower, em Campinas/SP. As fotos estão em <a href="#trabalho">Nosso trabalho</a>.</p>
               </div>
-              <p class="gj-rodape"><span>Gomes Jornal · Caderno Pintura</span><span>Página 3 de 3</span></p>
+              <p class="gj-rodape"><span>Gomes Jornal · Caderno Pintura</span><a class="gj-ler" href="blog/pintura-de-fachada-comercial-sem-parar-a-operacao.html">Abrir em página própria ›</a><span>Página 3 de 3</span></p>
             </article>
           </div>
 
           <div class="gj-nav">
-            <button class="gj-seta" type="button" data-passo="-1" disabled>‹ Página anterior</button>
-            <span class="gj-dica">Clique ou arraste para virar a página</span>
-            <button class="gj-seta" type="button" data-passo="1">Próxima página ›</button>
+            <button class="gj-seta" type="button" data-passo="-1" disabled>‹ Notícia anterior</button>
+            <span class="gj-dica">Clique na página ou arraste o canto para virar</span>
+            <button class="gj-seta" type="button" data-passo="1">Próxima notícia ›</button>
           </div>
         </div>
       </div>
@@ -806,7 +807,7 @@
   </div>
 
   <script src="assets/js/galerias.js?v=6" defer></script>
-  <script src="assets/js/main.js?v=6" defer></script>
+  <script src="assets/js/main.js?v=7" defer></script>
   <!-- three.js (biblioteca 3D) + galpão interativo da tela inicial -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
   <script src="assets/js/hero3d.js?v=2" defer></script>
