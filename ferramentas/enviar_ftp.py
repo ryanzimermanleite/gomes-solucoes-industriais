@@ -20,6 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from preparar_publicacao import DOMINIO, SITE  # noqa: E402
 
 TEMPO_LIMITE = 60
+MIDIA = {".webp", ".jpg", ".jpeg", ".png", ".gif", ".mp4"}
 
 
 class FTPS(ftplib.FTP_TLS):
@@ -186,6 +187,11 @@ def enviar(ftp: ftplib.FTP, arquivos: list[Path]) -> list[str]:
     falhas = []
     for i, p in enumerate(arquivos, 1):
         nome = p.relative_to(SITE).as_posix()
+        # Fotos e vídeos que já estão no servidor com o mesmo tamanho não são reenviados: se a conexão
+        # cair no meio, rodar de novo continua de onde parou. Páginas, estilos e scripts sempre vão de novo.
+        if p.suffix.lower() in MIDIA and tamanho_no_servidor(ftp, nome) == p.stat().st_size:
+            print(f"[{i:3}/{len(arquivos)}] {nome} (já está no servidor)")
+            continue
         print(f"[{i:3}/{len(arquivos)}] {nome}")
         try:
             with open(p, "rb") as f:
