@@ -22,9 +22,9 @@ import zipfile
 from datetime import date
 from pathlib import Path
 
-# Por enquanto o site fica no domínio antigo. Quando o cliente comprar o domínio novo,
-# trocar para "gomeseng.eng.br", rodar de novo e enviar o conteúdo novo.
-DOMINIO = "enggomes.com"
+# Domínio definitivo do site (antes ficava em enggomes.com).
+# Se mudar de novo, trocar aqui, rodar de novo e enviar o conteúdo novo.
+DOMINIO = "enggomes.eng.br"
 URL = f"https://{DOMINIO}/"
 
 RAIZ = Path(__file__).resolve().parent.parent

@@ -5,3 +5,4 @@ publicar/
 *.pptx
 .claude/
 Thumbs.db
+__pycache__/
