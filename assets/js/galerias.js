@@ -71,46 +71,6 @@ window.GALERIAS = {
       }
     ]
   },
-  "coberturas": {
-    "titulo": "Troca de telhas e manutenção de telhado industrial",
-    "fotos": [
-      {
-        "src": "assets/img/projetos/coberturas/01.webp",
-        "w": 1200,
-        "h": 1600
-      },
-      {
-        "src": "assets/img/projetos/coberturas/02.webp",
-        "w": 1200,
-        "h": 1600
-      },
-      {
-        "src": "assets/img/projetos/coberturas/03.webp",
-        "w": 1200,
-        "h": 1600
-      },
-      {
-        "src": "assets/img/projetos/coberturas/04.webp",
-        "w": 900,
-        "h": 1600
-      },
-      {
-        "src": "assets/img/projetos/coberturas/05.webp",
-        "w": 900,
-        "h": 1600
-      },
-      {
-        "src": "assets/img/projetos/coberturas/06.webp",
-        "w": 1200,
-        "h": 1600
-      },
-      {
-        "src": "assets/img/projetos/coberturas/07.webp",
-        "w": 1040,
-        "h": 780
-      }
-    ]
-  },
   "tenda-telhas": {
     "titulo": "Limpeza de telhas e estruturas metálicas — Tenda Atacado",
     "fotos": [
@@ -427,8 +387,152 @@ window.PASTAS = {
     "nome": "Myralis",
     "local": "Myralis · Aguaí/SP",
     "logo": "assets/img/clientes/placa-myralis.webp",
-    "titulo": "Piso industrial para indústria farmacêutica",
-    "galeria": "myralis"
+    "titulo": "Alvenaria, reboco, piso industrial e pintura",
+    "descricao": "Na fábrica da Myralis, em Aguaí/SP, a Gomes executou a alvenaria da fachada, o reboco, o piso industrial com polimento e a pintura. As fotos estão separadas por serviço.",
+    "itens": [
+      "Alvenaria em fachada",
+      "Reboco",
+      "Piso industrial e polimento",
+      "Pintura"
+    ],
+    "videos": [
+      {
+        "src": "assets/video/myralis/01.mp4",
+        "capa": "assets/video/myralis/01.webp",
+        "legenda": "Alvenaria da fachada"
+      },
+      {
+        "src": "assets/video/myralis/02.mp4",
+        "capa": "assets/video/myralis/02.webp",
+        "legenda": "Piso concretado"
+      },
+      {
+        "src": "assets/video/myralis/03.mp4",
+        "capa": "assets/video/myralis/03.webp",
+        "legenda": "Piso polido"
+      },
+      {
+        "src": "assets/video/myralis/04.mp4",
+        "capa": "assets/video/myralis/04.webp",
+        "legenda": "Fachada pintada"
+      }
+    ],
+    "servicos": [
+      {
+        "titulo": "Alvenaria em fachada",
+        "local": "Fechamento da fachada em blocos cerâmicos",
+        "fotos": [
+          {
+            "src": "assets/img/projetos/myralis/alv-01.webp",
+            "p": "assets/img/projetos/myralis/alv-01-p.webp",
+            "w": 1600,
+            "h": 1200
+          },
+          {
+            "src": "assets/img/projetos/myralis/alv-02.webp",
+            "p": "assets/img/projetos/myralis/alv-02-p.webp",
+            "w": 1600,
+            "h": 1316
+          },
+          {
+            "src": "assets/img/projetos/myralis/alv-03.webp",
+            "p": "assets/img/projetos/myralis/alv-03-p.webp",
+            "w": 1600,
+            "h": 1200
+          },
+          {
+            "src": "assets/img/projetos/myralis/alv-04.webp",
+            "p": "assets/img/projetos/myralis/alv-04-p.webp",
+            "w": 1600,
+            "h": 1368
+          }
+        ]
+      },
+      {
+        "titulo": "Reboco",
+        "local": "Paredes rebocadas",
+        "fotos": [
+          {
+            "src": "assets/img/projetos/myralis/reb-01.webp",
+            "p": "assets/img/projetos/myralis/reb-01-p.webp",
+            "w": 1200,
+            "h": 1600
+          },
+          {
+            "src": "assets/img/projetos/myralis/reb-02.webp",
+            "p": "assets/img/projetos/myralis/reb-02-p.webp",
+            "w": 936,
+            "h": 1600
+          }
+        ]
+      },
+      {
+        "titulo": "Piso industrial e polimento",
+        "local": "Concretagem com tela e polimento",
+        "fotos": [
+          {
+            "src": "assets/img/projetos/myralis/piso-01.webp",
+            "p": "assets/img/projetos/myralis/piso-01-p.webp",
+            "w": 1200,
+            "h": 1600
+          },
+          {
+            "src": "assets/img/projetos/myralis/piso-02.webp",
+            "p": "assets/img/projetos/myralis/piso-02-p.webp",
+            "w": 1600,
+            "h": 1200
+          },
+          {
+            "src": "assets/img/projetos/myralis/piso-03.webp",
+            "p": "assets/img/projetos/myralis/piso-03-p.webp",
+            "w": 1200,
+            "h": 1600
+          },
+          {
+            "src": "assets/img/projetos/myralis/piso-04.webp",
+            "p": "assets/img/projetos/myralis/piso-04-p.webp",
+            "w": 1200,
+            "h": 1600
+          }
+        ]
+      },
+      {
+        "titulo": "Pintura",
+        "local": "Piso e fachada",
+        "fotos": [
+          {
+            "src": "assets/img/projetos/myralis/pint-01.webp",
+            "p": "assets/img/projetos/myralis/pint-01-p.webp",
+            "w": 1200,
+            "h": 1600
+          },
+          {
+            "src": "assets/img/projetos/myralis/pint-02.webp",
+            "p": "assets/img/projetos/myralis/pint-02-p.webp",
+            "w": 1200,
+            "h": 1600
+          },
+          {
+            "src": "assets/img/projetos/myralis/01.webp",
+            "p": "assets/img/projetos/myralis/01-p.webp",
+            "w": 1280,
+            "h": 960
+          },
+          {
+            "src": "assets/img/projetos/myralis/02.webp",
+            "p": "assets/img/projetos/myralis/02-p.webp",
+            "w": 1280,
+            "h": 960
+          },
+          {
+            "src": "assets/img/projetos/myralis/03.webp",
+            "p": "assets/img/projetos/myralis/03-p.webp",
+            "w": 960,
+            "h": 1280
+          }
+        ]
+      }
+    ]
   },
   "oyo": {
     "nome": "Hotéis OYO",
@@ -480,12 +584,6 @@ window.PASTAS = {
         "galeria": "tenda-telhas"
       }
     ]
-  },
-  "coberturas": {
-    "nome": "Coberturas industriais",
-    "local": "Coberturas industriais",
-    "titulo": "Troca de telhas e manutenção de telhado",
-    "galeria": "coberturas"
   },
   "mont-blanc": {
     "nome": "Résidence Mont Blanc",
@@ -661,6 +759,57 @@ window.PASTAS = {
         "p": "assets/img/projetos/entre-verdes/05-p.webp",
         "w": 1600,
         "h": 1199
+      }
+    ]
+  },
+  "piracicaba-ambiental": {
+    "nome": "Piracicaba Ambiental",
+    "local": "Piracicaba Ambiental",
+    "logo": "assets/img/clientes/placa-piracicaba-ambiental.webp",
+    "titulo": "Troca de telhas e manutenção de telhado",
+    "descricao": "Na Piracicaba Ambiental, a Gomes trocou telhas da cobertura metálica do galpão. As fotos mostram o telhado antigo, os trechos abertos durante a troca e as telhas novas instaladas.",
+    "itens": [
+      "Retirada das telhas antigas",
+      "Instalação de telhas metálicas novas",
+      "Trabalho em altura sobre a cobertura"
+    ],
+    "videos": [],
+    "fotos": [
+      {
+        "src": "assets/img/projetos/piracicaba-ambiental/01.webp",
+        "p": "assets/img/projetos/piracicaba-ambiental/01-p.webp",
+        "w": 1200,
+        "h": 1600
+      },
+      {
+        "src": "assets/img/projetos/piracicaba-ambiental/02.webp",
+        "p": "assets/img/projetos/piracicaba-ambiental/02-p.webp",
+        "w": 1200,
+        "h": 1600
+      },
+      {
+        "src": "assets/img/projetos/piracicaba-ambiental/03.webp",
+        "p": "assets/img/projetos/piracicaba-ambiental/03-p.webp",
+        "w": 1200,
+        "h": 1600
+      },
+      {
+        "src": "assets/img/projetos/piracicaba-ambiental/04.webp",
+        "p": "assets/img/projetos/piracicaba-ambiental/04-p.webp",
+        "w": 1200,
+        "h": 1600
+      },
+      {
+        "src": "assets/img/projetos/piracicaba-ambiental/05.webp",
+        "p": "assets/img/projetos/piracicaba-ambiental/05-p.webp",
+        "w": 1200,
+        "h": 1600
+      },
+      {
+        "src": "assets/img/projetos/piracicaba-ambiental/06.webp",
+        "p": "assets/img/projetos/piracicaba-ambiental/06-p.webp",
+        "w": 1200,
+        "h": 1600
       }
     ]
   }
