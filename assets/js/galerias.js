@@ -180,11 +180,6 @@ window.GALERIAS = {
         "h": 1600
       },
       {
-        "src": "assets/img/projetos/oyo/05.webp",
-        "w": 720,
-        "h": 1280
-      },
-      {
         "src": "assets/img/projetos/oyo/06.webp",
         "w": 720,
         "h": 1280
