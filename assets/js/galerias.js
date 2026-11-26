@@ -612,6 +612,16 @@ window.PASTAS = {
         "src": "assets/video/mont-blanc/04.mp4",
         "capa": "assets/video/mont-blanc/04.webp",
         "legenda": "Fôrmas e laje"
+      },
+      {
+        "src": "assets/video/mont-blanc/05.mp4",
+        "capa": "assets/video/mont-blanc/05.webp",
+        "legenda": "Drone: obra na fase de alvenaria"
+      },
+      {
+        "src": "assets/video/mont-blanc/06.mp4",
+        "capa": "assets/video/mont-blanc/06.webp",
+        "legenda": "Drone: a obra no condomínio"
       }
     ],
     "fotos": [
@@ -805,6 +815,44 @@ window.PASTAS = {
         "p": "assets/img/projetos/piracicaba-ambiental/06-p.webp",
         "w": 1200,
         "h": 1600
+      }
+    ]
+  },
+  "jatibela": {
+    "nome": "Jatibela",
+    "local": "Jatibela · Campinas/SP",
+    "logo": "assets/img/clientes/placa-jatibela.webp",
+    "titulo": "Construção de residência",
+    "descricao": "No Jatibela, em Campinas/SP, a Gomes constrói uma residência. As imagens de drone mostram a obra na fase de estrutura e alvenaria.",
+    "itens": [
+      "Estrutura e lajes",
+      "Alvenaria",
+      "Canteiro de obras"
+    ],
+    "videos": [
+      {
+        "src": "assets/video/jatibela/01.mp4",
+        "capa": "assets/video/jatibela/01.webp",
+        "legenda": "Obra vista de cima"
+      },
+      {
+        "src": "assets/video/jatibela/02.mp4",
+        "capa": "assets/video/jatibela/02.webp",
+        "legenda": "Volta aérea pela obra"
+      }
+    ],
+    "fotos": [
+      {
+        "src": "assets/img/projetos/jatibela/01.webp",
+        "p": "assets/img/projetos/jatibela/01-p.webp",
+        "w": 1600,
+        "h": 1115
+      },
+      {
+        "src": "assets/img/projetos/jatibela/02.webp",
+        "p": "assets/img/projetos/jatibela/02-p.webp",
+        "w": 1600,
+        "h": 923
       }
     ]
   }
