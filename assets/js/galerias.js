@@ -201,46 +201,6 @@ window.GALERIAS = {
       }
     ]
   },
-  "park-tower": {
-    "titulo": "Pintura de brise — Hotel Park Tower, Campinas/SP",
-    "fotos": [
-      {
-        "src": "assets/img/projetos/park-tower/01.webp",
-        "w": 1600,
-        "h": 900
-      },
-      {
-        "src": "assets/img/projetos/park-tower/02.webp",
-        "w": 1600,
-        "h": 900
-      },
-      {
-        "src": "assets/img/projetos/park-tower/03.webp",
-        "w": 1600,
-        "h": 900
-      },
-      {
-        "src": "assets/img/projetos/park-tower/04.webp",
-        "w": 1600,
-        "h": 900
-      },
-      {
-        "src": "assets/img/projetos/park-tower/05.webp",
-        "w": 1600,
-        "h": 900
-      },
-      {
-        "src": "assets/img/projetos/park-tower/06.webp",
-        "w": 1600,
-        "h": 900
-      },
-      {
-        "src": "assets/img/projetos/park-tower/07.webp",
-        "w": 1600,
-        "h": 900
-      }
-    ]
-  },
   "hm-stand": {
     "titulo": "Construção de stand de vendas — HM Engenharia, Paulínia/SP",
     "fotos": [
@@ -273,66 +233,6 @@ window.GALERIAS = {
         "src": "assets/img/projetos/hm-stand/06.webp",
         "w": 1152,
         "h": 864
-      }
-    ]
-  },
-  "residencial": {
-    "titulo": "Construção e gestão de obra residencial de alto padrão",
-    "fotos": [
-      {
-        "src": "assets/img/projetos/residencial/01.webp",
-        "w": 1600,
-        "h": 1200
-      },
-      {
-        "src": "assets/img/projetos/residencial/02.webp",
-        "w": 1600,
-        "h": 1200
-      },
-      {
-        "src": "assets/img/projetos/residencial/03.webp",
-        "w": 1600,
-        "h": 1200
-      },
-      {
-        "src": "assets/img/projetos/residencial/04.webp",
-        "w": 1600,
-        "h": 1200
-      },
-      {
-        "src": "assets/img/projetos/residencial/05.webp",
-        "w": 1600,
-        "h": 1200
-      },
-      {
-        "src": "assets/img/projetos/residencial/06.webp",
-        "w": 1200,
-        "h": 1600
-      },
-      {
-        "src": "assets/img/projetos/residencial/07.webp",
-        "w": 1600,
-        "h": 1200
-      },
-      {
-        "src": "assets/img/projetos/residencial/08.webp",
-        "w": 1600,
-        "h": 1200
-      },
-      {
-        "src": "assets/img/projetos/residencial/09.webp",
-        "w": 1280,
-        "h": 959
-      },
-      {
-        "src": "assets/img/projetos/residencial/10.webp",
-        "w": 1600,
-        "h": 1200
-      },
-      {
-        "src": "assets/img/projetos/residencial/11.webp",
-        "w": 1600,
-        "h": 1200
       }
     ]
   }
@@ -535,18 +435,6 @@ window.PASTAS = {
     "logo": "assets/img/clientes/placa-oyo.webp",
     "titulo": "Pintura de fachadas e letreiros",
     "galeria": "oyo"
-  },
-  "residencial": {
-    "nome": "Obra residencial",
-    "local": "Residências de alto padrão",
-    "titulo": "Construção e gestão de obra residencial",
-    "galeria": "residencial"
-  },
-  "park-tower": {
-    "nome": "Hotel Park Tower",
-    "local": "Hotel Park Tower · Campinas/SP",
-    "titulo": "Pintura de brise",
-    "galeria": "park-tower"
   },
   "hm-stand": {
     "nome": "HM Engenharia",
